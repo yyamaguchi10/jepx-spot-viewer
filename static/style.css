@@ -10,7 +10,7 @@ body {
   .header {
     background-color: #2631d0;
     color: #fff;
-    height:70px;
+    height:80px;
   }
 
   .header-logo {
@@ -26,6 +26,7 @@ body {
   }
 
   .image1 {
-    width: 100vw;
+    width: 100%;
+    margin-top: 2px;
     padding: 2px 10px;
   }
