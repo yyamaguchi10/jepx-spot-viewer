@@ -10,9 +10,11 @@ io = io.BytesIO()
 data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS")
 data['年月日'] = pd.to_datetime(data['年月日']).dt.date
 today = pd.to_datetime('today').date()
+yesterday = (today - pd.Timedelta(days=1))
 data = data[data['年月日'] == (today - pd.Timedelta(days=1))]
 print(data)
 print(today)
+print(yesterday)
 print(today - pd.Timedelta(days=1))
 
 x = data['時刻コード']
@@ -22,7 +24,8 @@ fig, ax = plt.subplots(tight_layout=True)
 ax.plot(x, y,color="blue")
 ax.set_xlabel("Year")
 ax.set_ylabel("Price")
-ax.set_title("yesterday's price")
+title_name = str(yesterday) + "  price"
+ax.set_title(title_name)
 ax.grid(True)
 ax.set_xlabel("Times of Day(48 frames)")
 ax.set_ylabel("Price")

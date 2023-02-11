@@ -45,7 +45,8 @@ def index():
 
     # 現在の日付を取得し、昨日のデータを取得
     today = pd.to_datetime('today').date()
-    data = data[data['年月日'] == (today - pd.Timedelta(days=1))]
+    yesterday = (today - pd.Timedelta(days=1))
+    data = data[data['年月日'] == yesterday]
 
     # 現在の日付に一致する行だけを選択する場合
     # data = data[data['年月日'] == today]
@@ -58,7 +59,8 @@ def index():
     ax.plot(x, y,color="blue")
     ax.set_xlabel("Year")
     ax.set_ylabel("Price")
-    ax.set_title("yesterday's price")
+    title_name = str(yesterday) + "  price"
+    ax.set_title(title_name)
     ax.grid(True)
     ax.set_xlabel("Times of Day(48 frames)")
     ax.set_ylabel("Price")
