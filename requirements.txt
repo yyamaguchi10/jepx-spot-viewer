@@ -1,0 +1,5 @@
+Flask
+pandas
+matplotlib.pyplot
+io
+base64
