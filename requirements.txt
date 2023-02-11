@@ -1,5 +1,6 @@
 Flask
 pandas
+matplotlib
 matplotlib.pyplot
 io
 base64
