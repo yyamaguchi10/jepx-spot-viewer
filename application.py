@@ -41,7 +41,7 @@ def index():
     data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS")
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
-    data['時刻コード'] = data['時刻コード']/2
+    data['時刻コード'] = data['時刻コード']/2-0.5
     data['エリアプライス北陸(円/kWh)'] = data['エリアプライス北陸(円/kWh)'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
