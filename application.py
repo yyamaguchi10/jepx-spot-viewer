@@ -42,7 +42,9 @@ def index():
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    data['エリアプライス北陸(円/kWh)'] = data['エリアプライス北陸(円/kWh)'].astype(float)
+    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+
+    data['Hokuriku'] = data['Hokuriku'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     today = pd.to_datetime('today').date()
@@ -55,20 +57,20 @@ def index():
 
     # 列名から必要なデータを選択する
     x = data['時刻コード']
-    y_sys = data['システムプライス(円/kWh)']
-    y_hok = data['エリアプライス北海道(円/kWh)']
-    y_toh = data['エリアプライス東北(円/kWh)']
-    y_tok = data['エリアプライス東京(円/kWh)']
-    y_chu = data['エリアプライス中部(円/kWh)']
-    y_riku = data['エリアプライス北陸(円/kWh)']
-    y_kan = data['エリアプライス関西(円/kWh)']
-    y_chg = data['エリアプライス中国(円/kWh)']
-    y_sik = data['エリアプライス四国(円/kWh)']
-    y_kyu = data['エリアプライス九州(円/kWh)']
+    y_sys = data['System_Price']
+    y_hok = data['Hokkaido']
+    y_toh = data['Tohoku']
+    y_tok = data['Tokyo']
+    y_chu = data['Chubu']
+    y_riku = data['Hokuriku']
+    y_kan = data['Kansai']
+    y_chg = data['Chugoku']
+    y_sik = data['Sikoku']
+    y_kyu = data['Kyushu']
 
     fig, ax = plt.subplots(tight_layout=True)
-    
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "system")
+
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
     ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
     ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
     ax.plot(x, y_tok, lw = 1,color="darkturquoise", zorder=1, label = "Tokyo")
@@ -98,9 +100,25 @@ def index():
 
     img = fig_to_base64_img(fig)
 
+    #最大最小値を取り出す
+    text_max = ""
+    text_min = ""
+    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    today_prices = data[price_columns]
+
+    max_price = today_prices.max().max()
+    #max_prices = data[data['today_prices'] == data['today_prices'].max()]
+    text_max = str(round(max_price,2))
+
+    min_price = today_prices.min().min()
+    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    text_min = str(round(min_price,2))
+
+
+
 
     # グラフをテンプレートに渡す
-    return render_template('index.html', img=img)
+    return render_template('index.html', img=img,text_max=text_max,text_min=text_min)
 
 
 ## 実行

@@ -32,3 +32,14 @@ body {
     margin-bottom: 10px;
     padding: 2px 2px;
   }
+
+  .textmaxmin h1 {
+    font-size: 20px;
+    color: rgb(18, 7, 234);
+  }
+
+ .textmaxmin p {
+    font-size: 15px;
+    color: rgb(18, 7, 234);
+ 
+ }
