@@ -68,16 +68,16 @@ def index():
 
     fig, ax = plt.subplots(tight_layout=True)
     
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", label = "system")
-    ax.plot(x, y_hok, lw = 1,color="green", label = "Hokkaido")
-    ax.plot(x, y_toh, lw = 1,color="brown", label = "Tohoku")
-    ax.plot(x, y_tok, lw = 1,color="cyan", label = "Tokyo")
-    ax.plot(x, y_chu, lw = 1,color="magenta", label = "Chubu")
-    ax.plot(x, y_riku, lw = 2,color="blue", label = "Hokuriku")
-    ax.plot(x, y_kan, lw = 1,color="orange", label = "Kansai")
-    ax.plot(x, y_chg, lw = 1,color="olive", label = "Chugoku")
-    ax.plot(x, y_sik, lw = 1,color="pink", label = "Sikoku")
-    ax.plot(x, y_kyu, lw = 1,color="gray", label = "Kyushu")
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "system")
+    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
+    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
+    ax.plot(x, y_tok, lw = 1,color="darkturquoise", zorder=1, label = "Tokyo")
+    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
+    ax.plot(x, y_riku, lw = 2,color="blue", zorder=2,label = "Hokuriku")
+    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
+    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
+    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
+    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
 
 
     title_name = str(tomorrow) + "  price"
@@ -87,6 +87,7 @@ def index():
     ax.set_ylabel("Price (¥/kWh)")
     plt.xticks(range(0, 24+1, 2))
     ax.set_xlim(0, 24)
+    ax.set_axisbelow(True)
 
 # グラフ上に数値を表示する
     for i, j in zip(x, y_riku):
