@@ -25,7 +25,7 @@ body {
     padding: 2px 10px;
   }
 
-  .image1 {
+  .image1 img{
     max-width: 100%;
     height: auto;
     margin-top: 10px;
