@@ -45,6 +45,8 @@ body {
   }
 
   .data {
+    max-width: 95%;
+    height: auto;
     font-size: 15px;
     color: rgb(2, 2, 3);
   }
