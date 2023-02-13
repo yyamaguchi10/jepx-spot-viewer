@@ -44,7 +44,16 @@ def index():
     data['時刻コード'] = data['時刻コード']/2-0.5
     data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
 
+    data['System_Price'] = data['System_Price'].astype(float)
+    data['Hokkaido'] = data['Hokkaido'].astype(float)
+    data['Tohoku'] = data['Tohoku'].astype(float)
+    data['Tokyo'] = data['Tokyo'].astype(float)
+    data['Chubu'] = data['Chubu'].astype(float)
     data['Hokuriku'] = data['Hokuriku'].astype(float)
+    data['Kansai'] = data['Kansai'].astype(float)
+    data['Chugoku'] = data['Chugoku'].astype(float)
+    data['Sikoku'] = data['Sikoku'].astype(float)
+    data['Kyushu'] = data['Kyushu'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     today = pd.to_datetime('today').date()
@@ -107,18 +116,19 @@ def index():
     today_prices = data[price_columns]
 
     max_price = today_prices.max().max()
-    #max_prices = data[data['today_prices'] == data['today_prices'].max()]
+    #max_prices = data[data[today_prices] == data[today_prices].max()]
     text_max = str(round(max_price,2))
 
     min_price = today_prices.min().min()
     #min_prices = data[data['today_prices'] == data['today_prices'].min()]
     text_min = str(round(min_price,2))
 
-
+    style = today_prices.style.highlight_min(color="yellow")
+    style = today_prices.style.highlight_max(color="red")
 
 
     # グラフをテンプレートに渡す
-    return render_template('index.html', img=img,text_max=text_max,text_min=text_min)
+    return render_template('index.html', img=img,text_max=text_max,text_min=text_min,today_prices=today_prices.to_html(classes='data', header="true"))
 
 
 ## 実行

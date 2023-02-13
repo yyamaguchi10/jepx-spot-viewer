@@ -8,7 +8,7 @@ body {
   }
 
   .header {
-    background-color: #2631d0;
+    background-color: rgba(0, 102, 255, 0.5);
     color: #fff;
     height:100px;
   }
@@ -34,12 +34,18 @@ body {
   }
 
   .textmaxmin h1 {
-    font-size: 20px;
-    color: rgb(18, 7, 234);
+    font-size: 18px;
+    color: rgb(241, 241, 247);
+    background-color: rgba(0, 0, 255, 0.4);
   }
 
- .textmaxmin p {
+  .data h1{
     font-size: 15px;
-    color: rgb(18, 7, 234);
- 
- }
+    color: rgb(2, 2, 3);
+  }
+
+  .data {
+    font-size: 15px;
+    color: rgb(2, 2, 3);
+  }
+

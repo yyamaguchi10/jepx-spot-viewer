@@ -22,5 +22,9 @@
         <h1>全国最高値： {{text_max}}     全国最安値： {{text_min}}</h1>
         <p>
       </div>
+      <div class="data">
+        <h1>（参考：エリア別単価）</h1>
+        {{ today_prices|safe }}
+      </div>
    </body>
 </html>
