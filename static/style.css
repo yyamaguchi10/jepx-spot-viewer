@@ -39,12 +39,16 @@ body {
     background-color: rgba(0, 0, 255, 0.4);
   }
 
-  .data h1{
+
+
+  table h2{
+    table-layout: fixed;
+    max-width: 95%;
     font-size: 15px;
-    color: rgb(2, 2, 3);
+    color: rgb(6, 1, 6);
   }
 
-  .data {
+  table {
     table-layout: fixed;
     max-width: 95%;
     font-size: 15px;
