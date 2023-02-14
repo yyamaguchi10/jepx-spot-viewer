@@ -46,7 +46,7 @@ body {
 
   .data {
     max-width: 95%;
-    height: auto;
+    table-layout: fixed;
     font-size: 15px;
     color: rgb(2, 2, 3);
   }
