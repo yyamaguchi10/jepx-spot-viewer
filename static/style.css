@@ -44,10 +44,10 @@ body {
     color: rgb(2, 2, 3);
   }
 
-  .data td{
-    max-width: 95%;
+  .data {
     table-layout: fixed;
+    max-width: 95%;
     font-size: 15px;
-    color: rgb(2, 2, 3);
+    color: rgb(6, 1, 6);
   }
 

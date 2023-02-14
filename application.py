@@ -56,10 +56,11 @@ def index():
     data['Kyushu'] = data['Kyushu'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
-    today = pd.to_datetime('today').date()
-    yesterday = (today - pd.Timedelta(days=1))
-    tomorrow = (today + pd.Timedelta(days=1))
-    data = data[data['年月日'] == tomorrow]
+    #today = pd.to_datetime('today').date()
+    #yesterday = (today - pd.Timedelta(days=1))
+    #tomorrow = (today + pd.Timedelta(days=1))
+    latest_date = data.tail(1).iloc[0]['年月日']
+    data = data[data['年月日'] == latest_date]
 
     # 現在の日付に一致する行だけを選択する場合
     # data = data[data['年月日'] == today]
@@ -91,7 +92,7 @@ def index():
     ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
 
 
-    title_name = str(tomorrow) + "  price"
+    title_name = str(latest_date) + "  price"
     ax.set_title(title_name,fontsize=18)
     ax.grid(True)
     ax.set_xlabel("Times of Day(48 frames)")
