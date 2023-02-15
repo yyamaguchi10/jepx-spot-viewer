@@ -39,7 +39,9 @@ body {
     background-color: rgba(0, 0, 255, 0.4);
   }
 
-
+  .price_table {
+    overflow: auto;
+  }
 
   table p{
     font-size: 15px;
@@ -47,9 +49,16 @@ body {
   }
 
   table {
-    table-layout: fixed;
     max-width: 95%;
+    table-layout: fixed;
     font-size: 13px;
     color: rgb(6, 1, 6);
+    text-align: right
+  }
+
+  table th{
+    position: sticky;
+    top: 0;
+    left: 0;
   }
 
