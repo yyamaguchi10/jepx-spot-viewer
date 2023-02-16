@@ -56,10 +56,23 @@ body {
     text-align: right
   }
 
-  table th{
-    position: -webkit-sticky; 
-    position: sticky;
-    top: 0;
-    left: 0;
-  }
+
+.price_table thead th {
+  /* 縦スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background:rgba(163, 163, 230, 0.4);
+  /* tbody内のセルより手前に表示する */
+  z-index: 1;
+}
+
+.price_table th:first-child {
+  /* 横スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  background:rgba(163, 163, 230, 0.4);
+}
+
 
