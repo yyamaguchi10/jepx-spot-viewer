@@ -39,9 +39,6 @@ body {
     background-color: rgba(0, 0, 255, 0.4);
   }
 
-  .price_table {
-    overflow: auto;
-  }
 
   table p{
     font-size: 15px;
