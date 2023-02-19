@@ -71,7 +71,7 @@ body {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background:rgba(163, 163, 230, 0.4);
+  background:rgba(163, 163, 230, 1.0);
   /* tbody内のセルより手前に表示する */
   z-index: 1;
 }
@@ -81,7 +81,7 @@ body {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
-  background:rgba(163, 163, 230, 0.4);
+  background:rgba(163, 163, 230, 1.0);
 }
 
 table td:nth-child(6) {
