@@ -117,7 +117,10 @@ def index():
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
-    img = fig_to_base64_img(fig)
+    global io
+    fig.savefig(io, format="png")
+    io.seek(0)
+    img = base64.b64encode(io.read()).decode()
 
     #最大最小値を取り出す
     text_max = ""
