@@ -425,12 +425,14 @@ def lastweek():
 
     title_name = str(day_ago6) + "--->" +  str(latest_date)  +"  price"
     ax.set_title(title_name,fontsize=15)
-    ax.grid(True)
+    ax.grid(which='major')
     ax.set_xlabel("Last Week(7days)")
     ax.set_ylabel("Price (¥/kWh)")
     ax.set_xlim(0, 336)
-    ax.set_xticks([0,24,48,72,96,120,144,168,192,216,240,264,288,312,336])
-    ax.set_xticklabels(["",day_ago6,"",day_ago5,"",day_ago4,"",day_ago3,"",day_ago2,"",day_ago1,"",latest_date,""],rotation = "vertical")
+    ax.set_xticks([0,48,96,144,192,240,288,336])
+    ax.set_xticklabels(["","","","","","","",""])
+    ax.set_xticks([24,72,120,168,216,264,312],minor=True)
+    ax.set_xticklabels([day_ago6,day_ago5,day_ago4,day_ago3,day_ago2,day_ago1,latest_date],rotation = "vertical",minor=True)
     ax.set_axisbelow(True)
 
 # グラフ上に数値を表示する
