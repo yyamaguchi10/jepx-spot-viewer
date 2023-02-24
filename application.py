@@ -587,6 +587,27 @@ def lastmonth():
     # グラフをテンプレートに渡す
     return render_template('lastmonth.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img4=img4,text_max4=text_max4,text_min4=text_min4)
 
+@app.route("/QR")
+def QR():
+
+    # CSVデータを読み込む
+    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS")
+    data['年月日'] = pd.to_datetime(data['年月日']).dt.date
+
+    latest_date = data.tail(1).iloc[0]['年月日']
+    day_ago1 = (latest_date - pd.Timedelta(days=1))
+    day_ago2 = (latest_date - pd.Timedelta(days=2))
+    day_ago5 = (latest_date - pd.Timedelta(days=5))
+    day_ago10 = (latest_date - pd.Timedelta(days=10))
+    day_ago15 = (latest_date - pd.Timedelta(days=15))
+    day_ago20 = (latest_date - pd.Timedelta(days=25))
+    day_ago25 = (latest_date - pd.Timedelta(days=25))
+    day_ago30 = (latest_date - pd.Timedelta(days=30))
+
+
+    # グラフをテンプレートに渡す
+    return render_template('QR.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2)
+
 ## 実行
 if __name__ == "__main__":
     app.run(debug=True)
