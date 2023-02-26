@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>jepx_spot</title>
+        <link rel="stylesheet" href="{{url_for('static',filename = 'style.css')}}">
+    </head>
+    <body>
+      <div class="header">
+        <div class="header-logo">JEPX Price!!</div>
+        <div class="header-list">
+          <p>・最新のスポット市場価格を表示します<br>（数値表示は北陸エリア）</p>
+        </div>
+      </div>
+      <div class="datelink">
+        <div class="link">
+          <a href = "{{url_for('index')}}"> 最新&nbsp;{{latest_date}}&emsp;</a>
+          <a href = "{{url_for('dayago1')}}"> 前日&nbsp;{{day_ago1}}&emsp;</a>
+          <a href = "{{url_for('dayago2')}}"> 前々日&nbsp;{{day_ago2}}&emsp;</a>
+          <a href = "{{url_for('lastweek')}}"> &nbsp;過去1週間&emsp;</a>
+          <a href = "{{url_for('lastmonth')}}"> &nbsp;過去30日間&emsp;</a>
+          <a href = "{{url_for('QR')}}"> &nbsp;QRコード表示&emsp;</a>
+        </div>
+      </div>
+
+      <div class="image1">
+        <img src="data:image/png;base64,{{ img4 }}">
+      </div>
+      <div class="textmaxmin">
+        <h1>全国最高値： {{text_max4}}     全国最安値： {{text_min4}}</h1>
+        <p>
+      </div>
+
+    </body>
+</html>

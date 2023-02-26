@@ -14,7 +14,7 @@ day1 = io.BytesIO()
 day2 = io.BytesIO()
 week = io.BytesIO()
 month = io.BytesIO()
-io = io.BytesIO()
+newday = io.BytesIO()
 
 
 def fig_to_base64_img(fig):
@@ -118,10 +118,10 @@ def index():
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
-    global io
-    fig.savefig(io, format="png")
-    io.seek(0)
-    img = base64.b64encode(io.read()).decode()
+    global newday
+    fig.savefig(newday, format="png")
+    newday.seek(0)
+    img = base64.b64encode(newday.read()).decode()
 
     #最大最小値を取り出す
     text_max = ""
