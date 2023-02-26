@@ -15,6 +15,10 @@ day2 = io.BytesIO()
 week = io.BytesIO()
 month = io.BytesIO()
 fy = io.BytesIO()
+fy22 = io.BytesIO()
+fy21 = io.BytesIO()
+fy20 = io.BytesIO()
+fy19 = io.BytesIO()
 newday = io.BytesIO()
 
 
@@ -716,8 +720,93 @@ def FY2019to2022():
     min_price2019 = data2019['Hokuriku'].min()
     text_min2019 = str(round(min_price2019,2))
 
+    #参考に年度別グラフを作成 2022
+    fig22, ax22 = plt.subplots(tight_layout=True)
+
+    ax22.plot(x22, y_riku22, lw = 0.4,color="blue", zorder=2,label = "FY2022")
+   
+    title_name = "Hokuriku  FY2022  price"
+    ax22.set_title(title_name,fontsize=15)
+    ax22.grid(which='major')
+    ax22.set_xlabel(" Month(FY)")
+    ax22.set_ylabel("Price (¥/kWh)")
+    ax22.set_xlim(0, 17521+1)
+    ax22.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax22.set_xticklabels(["","","","","","","","","","","","",""])
+    ax22.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax22.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax22.set_axisbelow(True)
+    
+    fig22.savefig(fy22, format="png")
+    fy22.seek(0)
+    img22 = base64.b64encode(fy22.read()).decode()
+
+    #参考に年度別グラフを作成 2021
+    fig21, ax21 = plt.subplots(tight_layout=True)
+
+    ax21.plot(x21, y_riku21, lw = 0.4,color="red", zorder=2,label = "FY2021")
+   
+    title_name = "Hokuriku  FY2021  price"
+    ax21.set_title(title_name,fontsize=15)
+    ax21.grid(which='major')
+    ax21.set_xlabel(" Month(FY)")
+    ax21.set_ylabel("Price (¥/kWh)")
+    ax21.set_xlim(0, 17521+1)
+    ax21.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax21.set_xticklabels(["","","","","","","","","","","","",""])
+    ax21.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax21.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax21.set_axisbelow(True)
+    
+    fig21.savefig(fy21, format="png")
+    fy21.seek(0)
+    img21 = base64.b64encode(fy21.read()).decode()
+
+    #参考に年度別グラフを作成 2020
+    fig20, ax20 = plt.subplots(tight_layout=True)
+
+    ax20.plot(x20, y_riku20, lw = 0.4,color="darkgreen", zorder=2,label = "FY2020")
+   
+    title_name = "Hokuriku  FY2020  price"
+    ax20.set_title(title_name,fontsize=15)
+    ax20.grid(which='major')
+    ax20.set_xlabel(" Month(FY)")
+    ax20.set_ylabel("Price (¥/kWh)")
+    ax20.set_xlim(0, 17521+1)
+    ax20.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax20.set_xticklabels(["","","","","","","","","","","","",""])
+    ax20.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax20.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax20.set_axisbelow(True)
+    
+    fig20.savefig(fy20, format="png")
+    fy20.seek(0)
+    img20 = base64.b64encode(fy20.read()).decode()
+
+    #参考に年度別グラフを作成 2019
+    fig19, ax19 = plt.subplots(tight_layout=True)
+
+    ax19.plot(x19, y_riku19, lw = 0.4,color="black", zorder=2,label = "FY2019")
+   
+    title_name = "Hokuriku  FY2019  price"
+    ax19.set_title(title_name,fontsize=15)
+    ax19.grid(which='major')
+    ax19.set_xlabel(" Month(FY)")
+    ax19.set_ylabel("Price (¥/kWh)")
+    ax19.set_xlim(0, 17521+1)
+    ax19.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax19.set_xticklabels(["","","","","","","","","","","","",""])
+    ax19.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax19.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax19.set_axisbelow(True)
+    
+    fig19.savefig(fy19, format="png")
+    fy19.seek(0)
+    img19 = base64.b64encode(fy19.read()).decode()
+
+
     # グラフをテンプレートに渡す
-    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,text_max2022=text_max2022,text_min2022=text_min2022,text_max2021=text_max2021,text_min2021=text_min2021,text_max2020=text_max2020,text_min2020=text_min2020,text_max2019=text_max2019,text_min2019=text_min2019)
+    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img22=img22,img21=img21,img20=img20,img19=img19,text_max2022=text_max2022,text_min2022=text_min2022,text_max2021=text_max2021,text_min2021=text_min2021,text_max2020=text_max2020,text_min2020=text_min2020,text_max2019=text_max2019,text_min2019=text_min2019)
 
 ## 実行
 if __name__ == "__main__":
