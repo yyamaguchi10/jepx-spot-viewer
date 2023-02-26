@@ -20,6 +20,7 @@
           <a href = "{{url_for('dayago2')}}"> 前々日&nbsp;{{day_ago2}}&emsp;</a>
           <a href = "{{url_for('lastweek')}}"> &nbsp;過去1週間&emsp;</a>
           <a href = "{{url_for('lastmonth')}}"> &nbsp;過去30日間&emsp;</a>
+          <a href = "{{url_for('FY2019to2022')}}"> &nbsp;年度比較&emsp;</a>
           <a href = "{{url_for('QR')}}"> &nbsp;QRコード表示&emsp;</a>
         </div>
       </div>
@@ -28,7 +29,7 @@
         <img src="data:image/png;base64,{{ img2 }}">
       </div>
       <div class="textmaxmin">
-        <h1>全国最高値： {{text_max2}}     全国最安値： {{text_min2}}</h1>
+        <h1>全国最高値： {{text_max2}}     &nbsp;全国最安値： {{text_min2}}</h1>
         <p>
       </div>
       <div class="price_table">

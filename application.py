@@ -14,6 +14,7 @@ day1 = io.BytesIO()
 day2 = io.BytesIO()
 week = io.BytesIO()
 month = io.BytesIO()
+fy = io.BytesIO()
 newday = io.BytesIO()
 
 
@@ -607,6 +608,116 @@ def QR():
 
     # グラフをテンプレートに渡す
     return render_template('QR.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2)
+
+
+@app.route("/FY2019to2022")
+def FY2019to2022():
+    fig5 = plt.figure()
+    # 2022CSVデータを読み込む
+    data2022 = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS")
+    data2022['年月日'] = pd.to_datetime(data2022['年月日']).dt.date
+    data2022 = data2022.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2022['Hokuriku'] = data2022['Hokuriku'].astype(float)
+    latest_date = data2022.tail(1).iloc[0]['年月日']
+    day_ago1 = (latest_date - pd.Timedelta(days=1))
+    day_ago2 = (latest_date - pd.Timedelta(days=2))
+    #data.reset_index()
+    data2022['No'] = range(1, len(data2022.index) + 1)
+    # 2021CSVデータを読み込む
+  
+    data2021 =  pd.read_csv('http://www.jepx.org/market/excel/spot_2021.csv',encoding="Shift-JIS")
+    data2021['年月日'] = pd.to_datetime(data2021['年月日']).dt.date
+    data2021 = data2021.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2021['Hokuriku'] = data2021['Hokuriku'].astype(float)
+    #data.reset_index()
+    data2021['No'] = range(1, len(data2021.index) + 1)
+    # 2020CSVデータを読み込む
+    data2020 = pd.read_csv('http://www.jepx.org/market/excel/spot_2020.csv',encoding="Shift-JIS")
+    data2020['年月日'] = pd.to_datetime(data2020['年月日']).dt.date
+    data2020 = data2020.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2020['Hokuriku'] = data2020['Hokuriku'].astype(float)
+    #data.reset_index()
+    data2020['No'] = range(1, len(data2020.index) + 1)
+    # 2019CSVデータを読み込む
+    data2019 = pd.read_csv('http://www.jepx.org/market/excel/spot_2019.csv',encoding="Shift-JIS")
+    data2019['年月日'] = pd.to_datetime(data2019['年月日']).dt.date
+    data2019 = data2019.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2019['Hokuriku'] = data2019['Hokuriku'].astype(float)
+    #data.reset_index()
+    data2019['No'] = range(1, len(data2019.index) + 1)
+
+    # 列名から必要なデータを選択する
+    x22 = data2022['No']
+    y_riku22 = data2022['Hokuriku']
+    x21 = data2021['No']
+    y_riku21 = data2021['Hokuriku']
+    x20 = data2020['No']
+    y_riku20 = data2020['Hokuriku']
+    x19 = data2019['No']
+    y_riku19 = data2019['Hokuriku']
+
+    fig5, ax = plt.subplots(tight_layout=True)
+
+    ax.plot(x22, y_riku22, lw = 0.4,color="blue", zorder=2,label = "FY2022")
+    ax.plot(x21, y_riku21, lw = 0.2,color="red", zorder=1,label = "FY2021")
+    ax.plot(x20, y_riku20, lw = 0.2,color="darkgreen", zorder=1,label = "FY2020")
+    ax.plot(x19, y_riku19, lw = 0.2,color="black", zorder=1,label = "FY2019")
+
+    title_name = "Hokuriku  FY2019 -> FY2022  price"
+    ax.set_title(title_name,fontsize=15)
+    ax.grid(which='major')
+    ax.set_xlabel(" Month(FY)")
+    ax.set_ylabel("Price (¥/kWh)")
+    ax.set_xlim(0, 17521+1)
+    ax.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax.set_xticklabels(["","","","","","","","","","","","",""])
+    ax.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax.set_axisbelow(True)
+
+# グラフ上に数値を表示する
+    #for i, j in zip(x, y_riku):
+       # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+         #   textcoords='offset points', fontsize=5)
+
+    ax.legend(loc='upper left',fontsize=10,framealpha=1,labelcolor='linecolor')
+    global fy
+
+    fig5.savefig(fy, format="png")
+    fy.seek(0)
+    img5 = base64.b64encode(fy.read()).decode()
+
+    #2022最大最小値を取り出す
+    text_max2022 = ""
+    text_min2022 = ""
+    max_price2022 = data2022['Hokuriku'].max()
+    text_max2022 = str(round(max_price2022,2))
+    min_price2022 = data2022['Hokuriku'].min()
+    text_min2022 = str(round(min_price2022,2))
+    #2021最大最小値を取り出す
+    text_max2021 = ""
+    text_min2021 = ""
+    max_price2021 = data2021['Hokuriku'].max()
+    text_max2021 = str(round(max_price2021,2))
+    min_price2021 = data2021['Hokuriku'].min()
+    text_min2021 = str(round(min_price2021,2))
+    #2020最大最小値を取り出す
+    text_max2020 = ""
+    text_min2020 = ""
+    max_price2020 = data2020['Hokuriku'].max()
+    text_max2020 = str(round(max_price2020,2))
+    min_price2020 = data2020['Hokuriku'].min()
+    text_min2020 = str(round(min_price2020,2))
+    #2019最大最小値を取り出す
+    text_max2019 = ""
+    text_min2019 = ""
+    max_price2019 = data2019['Hokuriku'].max()
+    text_max2019 = str(round(max_price2019,2))
+    min_price2019 = data2019['Hokuriku'].min()
+    text_min2019 = str(round(min_price2019,2))
+
+    # グラフをテンプレートに渡す
+    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,text_max2022=text_max2022,text_min2022=text_min2022,text_max2021=text_max2021,text_min2021=text_min2021,text_max2020=text_max2020,text_min2020=text_min2020,text_max2019=text_max2019,text_min2019=text_min2019)
 
 ## 実行
 if __name__ == "__main__":
