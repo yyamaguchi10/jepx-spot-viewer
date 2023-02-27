@@ -9,7 +9,7 @@ import io
 
 app = Flask(__name__,static_folder='./static')
 
-
+newday = io.BytesIO()
 day1 = io.BytesIO()
 day2 = io.BytesIO()
 week = io.BytesIO()
@@ -19,7 +19,7 @@ fy22 = io.BytesIO()
 fy21 = io.BytesIO()
 fy20 = io.BytesIO()
 fy19 = io.BytesIO()
-newday = io.BytesIO()
+
 
 
 def fig_to_base64_img(fig):
