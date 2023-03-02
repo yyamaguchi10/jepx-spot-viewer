@@ -9,27 +9,8 @@ import io
 
 app = Flask(__name__,static_folder='./static')
 
-newday = io.BytesIO()
-day1 = io.BytesIO()
-day2 = io.BytesIO()
-week = io.BytesIO()
-month = io.BytesIO()
-fy = io.BytesIO()
-fy22 = io.BytesIO()
-fy21 = io.BytesIO()
-fy20 = io.BytesIO()
-fy19 = io.BytesIO()
 
 
-
-def fig_to_base64_img(fig):
-    global io
-    
-    fig.savefig(io, format="png")
-    io.seek(0)
-    base64_img = base64.b64encode(io.read()).decode()
-
-    return base64_img
 
 @app.context_processor
 def override_url_for():
@@ -44,7 +25,16 @@ def dated_url_for(endpoint, **values):
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
 
-
+newday = io.BytesIO()
+day1 = io.BytesIO()
+day2 = io.BytesIO()
+week = io.BytesIO()
+month = io.BytesIO()
+fy = io.BytesIO()
+fy22 = io.BytesIO()
+fy21 = io.BytesIO()
+fy20 = io.BytesIO()
+fy19 = io.BytesIO()
 
 @app.route("/")
 def index():
