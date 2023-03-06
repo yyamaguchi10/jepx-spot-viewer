@@ -8,6 +8,7 @@ import os
 import io
 
 app = Flask(__name__,static_folder='./static')
+#app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.context_processor
 def override_url_for():
@@ -22,16 +23,16 @@ def dated_url_for(endpoint, **values):
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
 
-newday = io.BytesIO()
-day1 = io.BytesIO()
-day2 = io.BytesIO()
-week = io.BytesIO()
-month = io.BytesIO()
-fy = io.BytesIO()
-fy22 = io.BytesIO()
-fy21 = io.BytesIO()
-fy20 = io.BytesIO()
-fy19 = io.BytesIO()
+#newday = io.BytesIO()
+#day1 = io.BytesIO()
+#day2 = io.BytesIO()
+#week = io.BytesIO()
+#month = io.BytesIO()
+#fy = io.BytesIO()
+#fy22 = io.BytesIO()
+#fy21 = io.BytesIO()
+#fy20 = io.BytesIO()
+#fy19 = io.BytesIO()
 
 @app.route("/")
 def index():
@@ -111,6 +112,7 @@ def index():
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
     global newday
+    newday = io.BytesIO()
     fig.savefig(newday, format="png")
     newday.seek(0)
     img = base64.b64encode(newday.read()).decode()
@@ -214,7 +216,7 @@ def dayago1():
 
     ax1.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
     global day1
-
+    day1 = io.BytesIO()
     fig1.savefig(day1, format="png")
     day1.seek(0)
     img1 = base64.b64encode(day1.read()).decode()
@@ -319,7 +321,7 @@ def dayago2():
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
     global day2
-
+    day2 = io.BytesIO()
     fig2.savefig(day2, format="png")
     day2.seek(0)
     img2 = base64.b64encode(day2.read()).decode()
@@ -435,7 +437,7 @@ def lastweek():
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',fontsize=10)
     global week
-
+    week = io.BytesIO()
     fig3.savefig(week, format="png")
     week.seek(0)
     img3 = base64.b64encode(week.read()).decode()
@@ -551,7 +553,7 @@ def lastmonth():
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',fontsize=10)
     global month
-
+    month = io.BytesIO()
     fig4.savefig(month, format="png")
     month.seek(0)
     img4 = base64.b64encode(month.read()).decode()
@@ -666,7 +668,7 @@ def FY2019to2022():
 
     ax.legend(loc='upper left',fontsize=10,framealpha=1,labelcolor='linecolor')
     global fy
-
+    fy = io.BytesIO()
     fig5.savefig(fy, format="png")
     fy.seek(0)
     img5 = base64.b64encode(fy.read()).decode()
@@ -717,6 +719,8 @@ def FY2019to2022():
     ax22.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax22.set_axisbelow(True)
     
+    global fy22
+    fy22 = io.BytesIO()
     fig22.savefig(fy22, format="png")
     fy22.seek(0)
     img22 = base64.b64encode(fy22.read()).decode()
@@ -738,6 +742,8 @@ def FY2019to2022():
     ax21.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax21.set_axisbelow(True)
     
+    global fy21
+    fy21 = io.BytesIO()
     fig21.savefig(fy21, format="png")
     fy21.seek(0)
     img21 = base64.b64encode(fy21.read()).decode()
@@ -759,6 +765,8 @@ def FY2019to2022():
     ax20.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax20.set_axisbelow(True)
     
+    global fy20
+    fy20 = io.BytesIO()
     fig20.savefig(fy20, format="png")
     fy20.seek(0)
     img20 = base64.b64encode(fy20.read()).decode()
@@ -780,6 +788,8 @@ def FY2019to2022():
     ax19.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax19.set_axisbelow(True)
     
+    global fy19
+    fy19 = io.BytesIO()
     fig19.savefig(fy19, format="png")
     fy19.seek(0)
     img19 = base64.b64encode(fy19.read()).decode()
