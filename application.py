@@ -1,49 +1,47 @@
-from flask import Flask,render_template,request, url_for
+from flask import Flask,render_template,url_for
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
+#pyplotがimportされる前に[matplotlib.use('Agg')]でグラフ表示可能に
 import matplotlib.pyplot as plt
 import base64
 import os
 import io
 
+#flaskアプリ作成時に冒頭で記載するコード
 app = Flask(__name__,static_folder='./static')
-#app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
+#@app.context_processorはテンプレートで共通で使いたい変数や関数を定義
 @app.context_processor
+#以下は開発中にブラウザ画面が更新されない状態を解決するため
 def override_url_for():
     return dict(url_for=dated_url_for)
-
 def dated_url_for(endpoint, **values):
     if endpoint == 'static':
         filename = values.get('filename', None)
         if filename:
             file_path = os.path.join(app.root_path,
-                                 endpoint, filename)
+                                endpoint, filename)
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
 
-#newday = io.BytesIO()
-#day1 = io.BytesIO()
-#day2 = io.BytesIO()
-#week = io.BytesIO()
-#month = io.BytesIO()
-#fy = io.BytesIO()
-#fy22 = io.BytesIO()
-#fy21 = io.BytesIO()
-#fy20 = io.BytesIO()
-#fy19 = io.BytesIO()
-
+#最初のページ / が表示された際の処理
 @app.route("/")
 def index():
+    #Matplotlibで描画領域Figureオブジェクトを作成(定番の書き方)
     fig = plt.figure()
-    # CSVデータを読み込む
+    # jepxホームページからCSVデータを読み込む usecolsで指定の列のみ
     data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    #年月日データを日付データ型に変換
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
+    #時刻コードを数値型(float 小数点型）に変換し、48コマを÷2−0.5で0時開始の24時間に
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
+    #matplotlibでは日本語が文字化けするので列名を変換
+    #日本語対応策はあるが安全のため使用せず
     data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
 
+    #各データを数値型(float 小数点型）に変換
     data['System_Price'] = data['System_Price'].astype(float)
     data['Hokkaido'] = data['Hokkaido'].astype(float)
     data['Tohoku'] = data['Tohoku'].astype(float)
@@ -55,20 +53,25 @@ def index():
     data['Sikoku'] = data['Sikoku'].astype(float)
     data['Kyushu'] = data['Kyushu'].astype(float)
 
-    # 現在の日付を取得し、明日のデータを取得
+    # メモ 現在の日付を取得し、昨日や明日のデータを取得する場合
     #today = pd.to_datetime('today').date()
     #yesterday = (today - pd.Timedelta(days=1))
     #tomorrow = (today + pd.Timedelta(days=1))
+
+    #年月日の一番下（最新）の日付を取得
     latest_date = data.tail(1).iloc[0]['年月日']
+    #最新日からの前日,前々日の日付を取得
     day_ago1 = (latest_date - pd.Timedelta(days=1))
     day_ago2 = (latest_date - pd.Timedelta(days=2))
-
+    ################################
+    # 最新日latest_dateのグラフ作成
+    # 最新日latest_dateのデータ（48コマ）だけをdataに代入
     data = data[data['年月日'] == latest_date]
 
     # 現在の日付に一致する行だけを選択する場合
     # data = data[data['年月日'] == today]
 
-    # 列名から必要なデータを選択する
+    # 列名からグラフに使う x軸,y軸 データを選択する
     x = data['時刻コード']
     y_sys = data['System_Price']
     y_hok = data['Hokkaido']
@@ -80,9 +83,12 @@ def index():
     y_chg = data['Chugoku']
     y_sik = data['Sikoku']
     y_kyu = data['Kyushu']
-
+    # グラフを描く  tight_layout=Trueはグラフサイズ自動調整
     fig, ax = plt.subplots(tight_layout=True)
 
+    # 同じグラフに折れ線グラフを複数作成
+    # ax.plotでx,yを指定
+    # lwは線の太さ、ls=dashedで点線に、colorで色指定、zorderで数値の大きい線が前に、labelは凡例表示に使う文字を指定
     ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
     ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
     ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
@@ -94,50 +100,90 @@ def index():
     ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
     ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
 
-
+    # グラフタイトルに使う文字を変数title_nameに代入
+    # 日付データの変数latest_dateをstr関数で文字データ化
     title_name = str(latest_date) + "  price"
+    # グラフタイトルをセット。フォントサイズ指定可
     ax.set_title(title_name,fontsize=18)
+    # グリッド表示
     ax.grid(True)
+    # x軸ラベル名を指定
     ax.set_xlabel("Times of Day(48 frames)")
+    # y軸ラベル名を指定
     ax.set_ylabel("Price (¥/kWh)")
+    # x軸のメモリ幅を0から24+1(24時間表示に見えるように)、２ずつ目盛表示
     plt.xticks(range(0, 24+1, 2))
     ax.set_xlim(0, 24)
+    # グリッド線が折れ線の後ろに（折れ線を前に表示するため）
     ax.set_axisbelow(True)
 
-# グラフ上に数値を表示する
+    # グラフ上に北陸の数値y_rikuを表示する  xytext=(+1, +3)で少しずらして表記し見やすく
     for i, j in zip(x, y_riku):
         ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
             textcoords='offset points', fontsize=5)
 
+    # 凡例を表示
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
 
+    # 変数newdayを宣言
     global newday
+    # グラフ画像を変数newdayに代入
     newday = io.BytesIO()
+    # png画像に変換
     fig.savefig(newday, format="png")
     newday.seek(0)
+    # 変数imgに代入
     img = base64.b64encode(newday.read()).decode()
 
-    #最大最小値を取り出す
+    ###全国と北陸の最大最小値平均を取り出す
+    # 全国変数text_max（最大）,text_min（最小）,tezt_mean（平均）に空のデータを入れておく
+    # 北陸変数text_max_riku（最大）,text_min_riku（最小）,tezt_mean_riku（平均）に空のデータを入れておく
     text_max = ""
     text_min = ""
+    text_mean = ""
+    text_max_riku = ""
+    text_min_riku = ""
+    text_mean_riku = ""
+
+    # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    # データのうち日付データ等を除くエリアデータのみ変数today_pricesに代入
     today_prices = data[price_columns]
 
+    # 全体の最大値を取り出す際は.max().max()
     max_price = today_prices.max().max()
-    #max_prices = data[data[today_prices] == data[today_prices].max()]
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_maxに代入
     text_max = str(round(max_price,2))
 
+    # 全体の最小値を取り出す際は.min().min()
     min_price = today_prices.min().min()
-    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_minに代入
     text_min = str(round(min_price,2))
 
-    #style = today_prices.style.highlight_min(color="yellow")
-    #style = today_prices.style.highlight_max(color="red")
-    #today_prices.insert(1,'time', ["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"])
-    #today_prices = today_prices.set_index('time')
+    # 全体の平均を取り出す際は.mean().mean()
+    mean_price = today_prices.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_meanに代入
+    text_mean = str(round(mean_price,2))
+
+    # 北陸の最大値を取り出す際は.max()
+    max_price_riku = today_prices['Hokuriku'].max()
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_rikuに代入
+    text_max_riku = str(round(max_price_riku,2))
+
+    # 北陸の最小値を取り出す際は.min()
+    min_price_riku = today_prices['Hokuriku'].min()
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_rikuに代入
+    text_min_riku = str(round(min_price_riku,2))
+
+    # 北陸の平均を取り出す際は.mean()
+    mean_price_riku = today_prices['Hokuriku'].mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_rikuに代入
+    text_mean_riku = str(round(mean_price_riku,2))
+
+    # indexを48コマに変更する
     today_prices.set_axis(["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"],axis=0,inplace=True)
-    # グラフをテンプレートに渡す
-    return render_template('index.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img=img,text_max=text_max,text_min=text_min,today_prices=today_prices.to_html(classes='data', header="true"))
+    # グラフ等のデータをindex.htmlテンプレートに渡す
+    return render_template('index.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img=img,text_max=text_max,text_min=text_min,text_mean=text_mean,text_max_riku=text_max_riku,text_min_riku=text_min_riku,text_mean_riku=text_mean_riku,today_prices=today_prices.to_html(classes='data', header="true"))
 
 @app.route("/dayago1")
 def dayago1():
@@ -221,28 +267,55 @@ def dayago1():
     day1.seek(0)
     img1 = base64.b64encode(day1.read()).decode()
 
-
-    #最大最小値を取り出す
+    ###全国と北陸の最大最小値平均を取り出す
+    # 全国変数text_max1（最大）,text_min1（最小）,tezt_mean1（平均）に空のデータを入れておく
+    # 北陸変数text_max_riku1（最大）,text_min_riku1（最小）,tezt_mean_riku1（平均）に空のデータを入れておく
     text_max1 = ""
     text_min1 = ""
+    text_mean1 = ""
+    text_max_riku1 = ""
+    text_min_riku1 = ""
+    text_mean_riku1 = ""
+
+    # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    # データのうち日付データ等を除くエリアデータのみ変数today_prices1に代入
     today_prices1 = data[price_columns]
 
+    # 全体の最大値を取り出す際は.max().max()
     max_price1 = today_prices1.max().max()
-    #max_prices = data[data[today_prices] == data[today_prices].max()]
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max1に代入
     text_max1 = str(round(max_price1,2))
 
+    # 全体の最小値を取り出す際は.min().min()
     min_price1 = today_prices1.min().min()
-    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min1に代入
     text_min1 = str(round(min_price1,2))
 
-    #style = today_prices.style.highlight_min(color="yellow")
-    #style = today_prices.style.highlight_max(color="red")
-    #today_prices1.insert(1,'time', ["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"])
-    #today_prices1 = today_prices1.set_index('time')
+    # 全体の平均を取り出す際は.mean().mean()
+    mean_price1 = today_prices1.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean1に代入
+    text_mean1 = str(round(mean_price1,2))
+
+    # 北陸の最大値を取り出す際は.max()
+    max_price_riku1 = today_prices1['Hokuriku'].max()
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku1に代入
+    text_max_riku1 = str(round(max_price_riku1,2))
+
+    # 北陸の最小値を取り出す際は.min()
+    min_price_riku1 = today_prices1['Hokuriku'].min()
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku1に代入
+    text_min_riku1 = str(round(min_price_riku1,2))
+
+    # 北陸の平均を取り出す際は.mean()
+    mean_price_riku1 = today_prices1['Hokuriku'].mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku1に代入
+    text_mean_riku1 = str(round(mean_price_riku1,2))
+
+
     today_prices1.set_axis(["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"],axis=0,inplace=True)
     # グラフをテンプレートに渡す
-    return render_template('dayago1.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img1=img1,text_max1=text_max1,text_min1=text_min1,today_prices1=today_prices1.to_html(classes='data', header="true"))
+    return render_template('dayago1.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img1=img1,text_max1=text_max1,text_min1=text_min1,text_mean1=text_mean1,text_max_riku1=text_max_riku1,text_min_riku1=text_min_riku1,text_mean_riku1=text_mean_riku1,today_prices1=today_prices1.to_html(classes='data', header="true"))
 
 @app.route("/dayago2")
 def dayago2():
@@ -326,28 +399,55 @@ def dayago2():
     day2.seek(0)
     img2 = base64.b64encode(day2.read()).decode()
 
-    #最大最小値を取り出す
+    ###全国と北陸の最大最小値平均を取り出す
+    # 全国変数text_max2（最大）,text_min2（最小）,tezt_mean2（平均）に空のデータを入れておく
+    # 北陸変数text_max_riku2（最大）,text_min_riku2（最小）,tezt_mean_riku2（平均）に空のデータを入れておく
     text_max2 = ""
     text_min2 = ""
+    text_mean2 = ""
+    text_max_riku2 = ""
+    text_min_riku2 = ""
+    text_mean_riku2 = ""
+
+    # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    # データのうち日付データ等を除くエリアデータのみ変数today_prices2に代入
     today_prices2 = data[price_columns]
 
+    # 全体の最大値を取り出す際は.max().max()
     max_price2 = today_prices2.max().max()
-    #max_prices = data[data[today_prices] == data[today_prices].max()]
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max2に代入
     text_max2 = str(round(max_price2,2))
 
+    # 全体の最小値を取り出す際は.min().min()
     min_price2 = today_prices2.min().min()
-    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min2に代入
     text_min2 = str(round(min_price2,2))
 
-    #style = today_prices.style.highlight_min(color="yellow")
-    #style = today_prices.style.highlight_max(color="red")
-    #today_prices2.insert(1,'time', ["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"])
-    #today_prices2 = today_prices2.set_index('time')
+    # 全体の平均を取り出す際は.mean().mean()
+    mean_price2 = today_prices2.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean2に代入
+    text_mean2 = str(round(mean_price2,2))
+
+    # 北陸の最大値を取り出す際は.max()
+    max_price_riku2 = today_prices2['Hokuriku'].max()
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku2に代入
+    text_max_riku2 = str(round(max_price_riku2,2))
+
+    # 北陸の最小値を取り出す際は.min()
+    min_price_riku2 = today_prices2['Hokuriku'].min()
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku2に代入
+    text_min_riku2 = str(round(min_price_riku2,2))
+
+    # 北陸の平均を取り出す際は.mean()
+    mean_price_riku2 = today_prices2['Hokuriku'].mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku2に代入
+    text_mean_riku2 = str(round(mean_price_riku2,2))
+
     today_prices2.set_axis(["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"],axis=0,inplace=True)
 
     # グラフをテンプレートに渡す
-    return render_template('dayago2.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img2=img2,text_max2=text_max2,text_min2=text_min2,today_prices2=today_prices2.to_html(classes='data', header="true"))
+    return render_template('dayago2.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img2=img2,text_max2=text_max2,text_min2=text_min2,text_mean2=text_mean2,text_max_riku2=text_max_riku2,text_min_riku2=text_min_riku2,text_mean_riku2=text_mean_riku2,today_prices2=today_prices2.to_html(classes='data', header="true"))
 
 @app.route("/lastweek")
 def lastweek():
@@ -442,28 +542,54 @@ def lastweek():
     week.seek(0)
     img3 = base64.b64encode(week.read()).decode()
 
-    #最大最小値を取り出す
+
+    ###全国と北陸の最大最小値平均を取り出す
+    # 全国変数text_max3（最大）,text_min3（最小）,tezt_mean3（平均）に空のデータを入れておく
+    # 北陸変数text_max_riku3（最大）,text_min_riku3（最小）,tezt_mean_riku3（平均）に空のデータを入れておく
     text_max3 = ""
     text_min3 = ""
+    text_mean3 = ""
+    text_max_riku3 = ""
+    text_min_riku3 = ""
+    text_mean_riku3 = ""
+
+    # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    # データのうち日付データ等を除くエリアデータのみ変数today_prices3に代入
     today_prices3 = data[price_columns]
 
+    # 全体の最大値を取り出す際は.max().max()
     max_price3 = today_prices3.max().max()
-    #max_prices = data[data[today_prices] == data[today_prices].max()]
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max3に代入
     text_max3 = str(round(max_price3,2))
 
+    # 全体の最小値を取り出す際は.min().min()
     min_price3 = today_prices3.min().min()
-    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min3に代入
     text_min3 = str(round(min_price3,2))
 
-    #style = today_prices.style.highlight_min(color="yellow")
-    #style = today_prices.style.highlight_max(color="red")
-    #today_prices2.insert(1,'time', ["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"])
-    #today_prices2 = today_prices2.set_index('time')
-    #today_prices2.set_axis(["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"],axis=0,inplace=True)
+    # 全体の平均を取り出す際は.mean().mean()
+    mean_price3 = today_prices3.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean3に代入
+    text_mean3 = str(round(mean_price3,2))
+
+    # 北陸の最大値を取り出す際は.max()
+    max_price_riku3 = today_prices3['Hokuriku'].max()
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku3に代入
+    text_max_riku3 = str(round(max_price_riku3,2))
+
+    # 北陸の最小値を取り出す際は.min()
+    min_price_riku3 = today_prices3['Hokuriku'].min()
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku3に代入
+    text_min_riku3 = str(round(min_price_riku3,2))
+
+    # 北陸の平均を取り出す際は.mean()
+    mean_price_riku3 = today_prices3['Hokuriku'].mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku3に代入
+    text_mean_riku3 = str(round(mean_price_riku3,2))
 
     # グラフをテンプレートに渡す
-    return render_template('lastweek.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img3=img3,text_max3=text_max3,text_min3=text_min3)
+    return render_template('lastweek.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img3=img3,text_max3=text_max3,text_min3=text_min3,text_mean3=text_mean3,text_max_riku3=text_max_riku3,text_min_riku3=text_min_riku3,text_mean_riku3=text_mean_riku3)
 
 @app.route("/lastmonth")
 def lastmonth():
@@ -558,28 +684,55 @@ def lastmonth():
     month.seek(0)
     img4 = base64.b64encode(month.read()).decode()
 
-    #最大最小値を取り出す
+
+    ###全国と北陸の最大最小値平均を取り出す
+    # 全国変数text_max4（最大）,text_min4（最小）,tezt_mean4（平均）に空のデータを入れておく
+    # 北陸変数text_max_riku4（最大）,text_min_riku4（最小）,tezt_mean_riku4（平均）に空のデータを入れておく
     text_max4 = ""
     text_min4 = ""
+    text_mean4 = ""
+    text_max_riku4 = ""
+    text_min_riku4 = ""
+    text_mean_riku4 = ""
+
+    # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    # データのうち日付データ等を除くエリアデータのみ変数today_prices4に代入
     today_prices4 = data[price_columns]
 
+    # 全体の最大値を取り出す際は.max().max()
     max_price4 = today_prices4.max().max()
-    #max_prices = data[data[today_prices] == data[today_prices].max()]
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max4に代入
     text_max4 = str(round(max_price4,2))
 
+    # 全体の最小値を取り出す際は.min().min()
     min_price4 = today_prices4.min().min()
-    #min_prices = data[data['today_prices'] == data['today_prices'].min()]
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min4に代入
     text_min4 = str(round(min_price4,2))
 
-    #style = today_prices.style.highlight_min(color="yellow")
-    #style = today_prices.style.highlight_max(color="red")
-    #today_prices2.insert(1,'time', ["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"])
-    #today_prices2 = today_prices2.set_index('time')
-    #today_prices2.set_axis(["0:00-","0:30-","1:00-","1:30-","2:00-","2:30-","3:00-","3:30-","4:00-","4:30-","5:00-","5:30-","6:00-","6:30-","7:00-","7:30-","8:00-","8:30-","9:00-","9:30-","10:00-","10:30-","11:00-","11:30-","12:00-","12:30-","13:00-","13:30-","14:00-","14:30-","15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-","20:30-","21:00-","21:30-","22:00-","22:30-","23:00-","23:30-"],axis=0,inplace=True)
+    # 全体の平均を取り出す際は.mean().mean()
+    mean_price4 = today_prices4.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean4に代入
+    text_mean4 = str(round(mean_price4,2))
+
+    # 北陸の最大値を取り出す際は.max()
+    max_price_riku4 = today_prices4['Hokuriku'].max()
+    # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku4に代入
+    text_max_riku4 = str(round(max_price_riku4,2))
+
+    # 北陸の最小値を取り出す際は.min()
+    min_price_riku4 = today_prices4['Hokuriku'].min()
+    # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku4に代入
+    text_min_riku4 = str(round(min_price_riku4,2))
+
+    # 北陸の平均を取り出す際は.mean()
+    mean_price_riku4 = today_prices4['Hokuriku'].mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku4に代入
+    text_mean_riku4 = str(round(mean_price_riku4,2))
+
 
     # グラフをテンプレートに渡す
-    return render_template('lastmonth.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img4=img4,text_max4=text_max4,text_min4=text_min4)
+    return render_template('lastmonth.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img4=img4,text_max4=text_max4,text_min4=text_min4,text_mean4=text_mean4,text_max_riku4=text_max_riku4,text_min_riku4=text_min_riku4,text_mean_riku4=text_mean_riku4)
 
 @app.route("/QR")
 def QR():
@@ -673,34 +826,46 @@ def FY2019to2022():
     fy.seek(0)
     img5 = base64.b64encode(fy.read()).decode()
 
-    #2022最大最小値を取り出す
+    #2022最大最小平均を取り出す
     text_max2022 = ""
     text_min2022 = ""
+    text_mean2022 = ""
     max_price2022 = data2022['Hokuriku'].max()
     text_max2022 = str(round(max_price2022,2))
     min_price2022 = data2022['Hokuriku'].min()
     text_min2022 = str(round(min_price2022,2))
-    #2021最大最小値を取り出す
+    mean_price2022 = data2022['Hokuriku'].mean()
+    text_mean2022 = str(round(mean_price2022,2))
+    #2021最大最小平均を取り出す
     text_max2021 = ""
     text_min2021 = ""
+    text_mean2021 = ""
     max_price2021 = data2021['Hokuriku'].max()
     text_max2021 = str(round(max_price2021,2))
     min_price2021 = data2021['Hokuriku'].min()
     text_min2021 = str(round(min_price2021,2))
-    #2020最大最小値を取り出す
+    mean_price2021 = data2021['Hokuriku'].mean()
+    text_mean2021 = str(round(mean_price2021,2))
+    #2020最大最小平均を取り出す
     text_max2020 = ""
     text_min2020 = ""
+    text_mean2020 = ""
     max_price2020 = data2020['Hokuriku'].max()
     text_max2020 = str(round(max_price2020,2))
     min_price2020 = data2020['Hokuriku'].min()
     text_min2020 = str(round(min_price2020,2))
-    #2019最大最小値を取り出す
+    mean_price2020 = data2020['Hokuriku'].mean()
+    text_mean2020 = str(round(mean_price2020,2))
+    #2019最大最小平均を取り出す
     text_max2019 = ""
     text_min2019 = ""
+    text_mean2019 = ""
     max_price2019 = data2019['Hokuriku'].max()
     text_max2019 = str(round(max_price2019,2))
     min_price2019 = data2019['Hokuriku'].min()
     text_min2019 = str(round(min_price2019,2))
+    mean_price2019 = data2019['Hokuriku'].mean()
+    text_mean2019 = str(round(mean_price2019,2))
 
     #参考に年度別グラフを作成 2022
     fig22, ax22 = plt.subplots(tight_layout=True)
@@ -796,7 +961,7 @@ def FY2019to2022():
 
 
     # グラフをテンプレートに渡す
-    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img22=img22,img21=img21,img20=img20,img19=img19,text_max2022=text_max2022,text_min2022=text_min2022,text_max2021=text_max2021,text_min2021=text_min2021,text_max2020=text_max2020,text_min2020=text_min2020,text_max2019=text_max2019,text_min2019=text_min2019)
+    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img22=img22,img21=img21,img20=img20,img19=img19,text_max2022=text_max2022,text_min2022=text_min2022,text_mean2022=text_mean2022,text_max2021=text_max2021,text_min2021=text_min2021,text_mean2021=text_mean2021,text_max2020=text_max2020,text_min2020=text_min2020,text_mean2020=text_mean2020,text_max2019=text_max2019,text_min2019=text_min2019,text_mean2019=text_mean2019)
 
 ## 実行
 if __name__ == "__main__":
