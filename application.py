@@ -31,7 +31,7 @@ def index():
     #Matplotlibで描画領域Figureオブジェクトを作成(定番の書き方)
     fig = plt.figure()
     # jepxホームページからCSVデータを読み込む usecolsで指定の列のみ
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     #年月日データを日付データ型に変換
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     #時刻コードを数値型(float 小数点型）に変換し、48コマを÷2−0.5で0時開始の24時間に
@@ -189,7 +189,7 @@ def index():
 def dayago1():
     fig1 = plt.figure()
     # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -321,7 +321,7 @@ def dayago1():
 def dayago2():
     fig2 = plt.figure()
     # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -453,7 +453,7 @@ def dayago2():
 def lastweek():
     fig3 = plt.figure()
     # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -595,7 +595,7 @@ def lastweek():
 def lastmonth():
     fig4 = plt.figure()
     # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -738,7 +738,7 @@ def lastmonth():
 def QR():
 
     # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日'])
+    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日'])
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
 
     latest_date = data.tail(1).iloc[0]['年月日']
@@ -753,7 +753,7 @@ def QR():
 def FY2019to2022():
     fig5 = plt.figure()
     # 2022CSVデータを読み込む
-    data2022 = pd.read_csv('http://www.jepx.org/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2022 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2022['年月日'] = pd.to_datetime(data2022['年月日']).dt.date
     data2022 = data2022.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
     data2022['Hokuriku'] = data2022['Hokuriku'].astype(float)
@@ -764,21 +764,21 @@ def FY2019to2022():
     data2022['No'] = range(1, len(data2022.index) + 1)
     # 2021CSVデータを読み込む
   
-    data2021 =  pd.read_csv('http://www.jepx.org/market/excel/spot_2021.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2021 =  pd.read_csv('http://www.jepx.jp/market/excel/spot_2021.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2021['年月日'] = pd.to_datetime(data2021['年月日']).dt.date
     data2021 = data2021.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
     data2021['Hokuriku'] = data2021['Hokuriku'].astype(float)
     #data.reset_index()
     data2021['No'] = range(1, len(data2021.index) + 1)
     # 2020CSVデータを読み込む
-    data2020 = pd.read_csv('http://www.jepx.org/market/excel/spot_2020.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2020 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2020.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2020['年月日'] = pd.to_datetime(data2020['年月日']).dt.date
     data2020 = data2020.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
     data2020['Hokuriku'] = data2020['Hokuriku'].astype(float)
     #data.reset_index()
     data2020['No'] = range(1, len(data2020.index) + 1)
     # 2019CSVデータを読み込む
-    data2019 = pd.read_csv('http://www.jepx.org/market/excel/spot_2019.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2019 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2019.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2019['年月日'] = pd.to_datetime(data2019['年月日']).dt.date
     data2019 = data2019.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
     data2019['Hokuriku'] = data2019['Hokuriku'].astype(float)
