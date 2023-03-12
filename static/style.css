@@ -91,4 +91,8 @@ table td:nth-child(6) {
 	color: #3a18e4;
 	font-weight: bold;
 }
+/* 4列目の東京の数値を太字に */
+table td:nth-child(4) {
+	font-weight: bold;
+}
 
