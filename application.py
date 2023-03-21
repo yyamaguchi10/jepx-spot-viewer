@@ -867,6 +867,14 @@ def FY2019to2022():
     mean_price2019 = data2019['Hokuriku'].mean()
     text_mean2019 = str(round(mean_price2019,2))
 
+    maxminmeandata  = {
+    '最高': [text_max2022, text_max2021, text_max2020, text_max2019],
+    '最安': [text_min2022, text_min2021, text_min2020, text_min2019],
+    '平均': [text_mean2022, text_mean2021, text_mean2020, text_mean2019]
+    }
+    maxminmeandf = pd.DataFrame(maxminmeandata)
+    maxminmeandf.set_axis(["2022","2021","2020","2019"],axis=0,inplace=True)
+
     #参考に年度別グラフを作成 2022
     fig22, ax22 = plt.subplots(tight_layout=True)
 
@@ -961,7 +969,7 @@ def FY2019to2022():
 
 
     # グラフをテンプレートに渡す
-    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img22=img22,img21=img21,img20=img20,img19=img19,text_max2022=text_max2022,text_min2022=text_min2022,text_mean2022=text_mean2022,text_max2021=text_max2021,text_min2021=text_min2021,text_mean2021=text_mean2021,text_max2020=text_max2020,text_min2020=text_min2020,text_mean2020=text_mean2020,text_max2019=text_max2019,text_min2019=text_min2019,text_mean2019=text_mean2019)
+    return render_template('FY2019to2022.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img22=img22,img21=img21,img20=img20,img19=img19,text_max2022=text_max2022,text_min2022=text_min2022,text_mean2022=text_mean2022,text_max2021=text_max2021,text_min2021=text_min2021,text_mean2021=text_mean2021,text_max2020=text_max2020,text_min2020=text_min2020,text_mean2020=text_mean2020,text_max2019=text_max2019,text_min2019=text_min2019,text_mean2019=text_mean2019,maxminmeandf=maxminmeandf.to_html(classes='data', header="true"))
 
 ## 実行
 if __name__ == "__main__":

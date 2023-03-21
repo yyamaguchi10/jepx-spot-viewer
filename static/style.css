@@ -61,12 +61,12 @@ body {
   }
 
 
-  table p{
+  .price_table p{
     font-size: 15px;
     color: rgb(6, 1, 6);
   }
 
-  table {
+  .price_table {
     max-width: 95%;
     table-layout: fixed;
     font-size: 13px;
@@ -101,3 +101,11 @@ table td:nth-child(4) {
 	font-weight: bold;
 }
 
+.table2019_2022 th{
+  width: 50px;
+  text-align: center;
+}
+
+.table2019_2022 td{
+  width: 50px;
+}
