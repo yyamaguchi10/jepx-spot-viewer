@@ -30,8 +30,17 @@ def dated_url_for(endpoint, **values):
 def index():
     #Matplotlibで描画領域Figureオブジェクトを作成(定番の書き方)
     fig = plt.figure()
-    # jepxホームページからCSVデータを読み込む usecolsで指定の列のみ
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    # CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     #年月日データを日付データ型に変換
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     #時刻コードを数値型(float 小数点型）に変換し、48コマを÷2−0.5で0時開始の24時間に
@@ -188,8 +197,17 @@ def index():
 @app.route("/dayago1")
 def dayago1():
     fig1 = plt.figure()
-    # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    # CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -320,8 +338,16 @@ def dayago1():
 @app.route("/dayago2")
 def dayago2():
     fig2 = plt.figure()
-    # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    # CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -452,8 +478,16 @@ def dayago2():
 @app.route("/lastweek")
 def lastweek():
     fig3 = plt.figure()
-    # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    # CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -594,8 +628,17 @@ def lastweek():
 @app.route("/lastmonth")
 def lastmonth():
     fig4 = plt.figure()
-    # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    # CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
@@ -737,8 +780,16 @@ def lastmonth():
 @app.route("/QR")
 def QR():
 
-    # CSVデータを読み込む
-    data = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日'])
+# CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
 
     latest_date = data.tail(1).iloc[0]['年月日']
@@ -752,18 +803,32 @@ def QR():
 @app.route("/FY2019to2022")
 def FY2019to2022():
     fig5 = plt.figure()
+
+# CSVファイルのURLを指定
+    url_2022 = 'http://www.jepx.jp/market/excel/spot_2022.csv'
+    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+
+    # CSVファイルを読み込む
+    df_2022 = pd.read_csv(url_2022,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+
+    data = pd.concat([df_2022, df_2023])
+
+    data['年月日'] = pd.to_datetime(data['年月日']).dt.date
+
+    latest_date = data.tail(1).iloc[0]['年月日']
+    day_ago1 = (latest_date - pd.Timedelta(days=1))
+    day_ago2 = (latest_date - pd.Timedelta(days=2))
+
     # 2022CSVデータを読み込む
     data2022 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2022['年月日'] = pd.to_datetime(data2022['年月日']).dt.date
     data2022 = data2022.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
     data2022['Hokuriku'] = data2022['Hokuriku'].astype(float)
-    latest_date = data2022.tail(1).iloc[0]['年月日']
-    day_ago1 = (latest_date - pd.Timedelta(days=1))
-    day_ago2 = (latest_date - pd.Timedelta(days=2))
     #data.reset_index()
     data2022['No'] = range(1, len(data2022.index) + 1)
     # 2021CSVデータを読み込む
-  
+
     data2021 =  pd.read_csv('http://www.jepx.jp/market/excel/spot_2021.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2021['年月日'] = pd.to_datetime(data2021['年月日']).dt.date
     data2021 = data2021.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
@@ -879,7 +944,7 @@ def FY2019to2022():
     fig22, ax22 = plt.subplots(tight_layout=True)
 
     ax22.plot(x22, y_riku22, lw = 0.4,color="blue", zorder=2,label = "FY2022")
-   
+
     title_name = "Hokuriku  FY2022  price"
     ax22.set_title(title_name,fontsize=15)
     ax22.grid(which='major')
@@ -891,7 +956,7 @@ def FY2019to2022():
     ax22.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
     ax22.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax22.set_axisbelow(True)
-    
+
     global fy22
     fy22 = io.BytesIO()
     fig22.savefig(fy22, format="png")
@@ -902,7 +967,7 @@ def FY2019to2022():
     fig21, ax21 = plt.subplots(tight_layout=True)
 
     ax21.plot(x21, y_riku21, lw = 0.4,color="red", zorder=2,label = "FY2021")
-   
+
     title_name = "Hokuriku  FY2021  price"
     ax21.set_title(title_name,fontsize=15)
     ax21.grid(which='major')
@@ -914,7 +979,7 @@ def FY2019to2022():
     ax21.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
     ax21.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax21.set_axisbelow(True)
-    
+
     global fy21
     fy21 = io.BytesIO()
     fig21.savefig(fy21, format="png")
@@ -925,7 +990,7 @@ def FY2019to2022():
     fig20, ax20 = plt.subplots(tight_layout=True)
 
     ax20.plot(x20, y_riku20, lw = 0.4,color="darkgreen", zorder=2,label = "FY2020")
-   
+
     title_name = "Hokuriku  FY2020  price"
     ax20.set_title(title_name,fontsize=15)
     ax20.grid(which='major')
@@ -937,7 +1002,7 @@ def FY2019to2022():
     ax20.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
     ax20.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax20.set_axisbelow(True)
-    
+
     global fy20
     fy20 = io.BytesIO()
     fig20.savefig(fy20, format="png")
@@ -948,7 +1013,7 @@ def FY2019to2022():
     fig19, ax19 = plt.subplots(tight_layout=True)
 
     ax19.plot(x19, y_riku19, lw = 0.4,color="black", zorder=2,label = "FY2019")
-   
+
     title_name = "Hokuriku  FY2019  price"
     ax19.set_title(title_name,fontsize=15)
     ax19.grid(which='major')
@@ -960,7 +1025,7 @@ def FY2019to2022():
     ax19.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
     ax19.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax19.set_axisbelow(True)
-    
+
     global fy19
     fy19 = io.BytesIO()
     fig19.savefig(fy19, format="png")
