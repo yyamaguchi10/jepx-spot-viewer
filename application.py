@@ -715,10 +715,10 @@ def lastmonth():
     ax.set_xticklabels([day_ago30,day_ago25,day_ago20,day_ago15,day_ago10,day_ago5,latest_date],rotation = "vertical")
     ax.set_axisbelow(True)
 
-# グラフ上に数値を表示する
+    # グラフ上に数値を表示する
     #for i, j in zip(x, y_riku):
-       # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
-         #   textcoords='offset points', fontsize=5)
+    # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+    #   textcoords='offset points', fontsize=5)
 
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',fontsize=10)
     global month
@@ -879,10 +879,10 @@ def FY2019to2022():
     ax.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
     ax.set_axisbelow(True)
 
-# グラフ上に数値を表示する
+    # グラフ上に数値を表示する
     #for i, j in zip(x, y_riku):
-       # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
-         #   textcoords='offset points', fontsize=5)
+    # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+    #   textcoords='offset points', fontsize=5)
 
     ax.legend(loc='upper left',fontsize=10,framealpha=1,labelcolor='linecolor')
     global fy
