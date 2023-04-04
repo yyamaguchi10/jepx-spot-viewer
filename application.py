@@ -8,7 +8,7 @@ import base64
 import os
 import io
 
-# 2023/4/4修正 9:50
+# 2023/4/4修正 11:10
 #flaskアプリ作成時に冒頭で記載するコード
 app = Flask(__name__,static_folder='./static')
 
