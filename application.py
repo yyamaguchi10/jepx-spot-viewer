@@ -802,7 +802,7 @@ def QR():
 
 
 @app.route("/FY2020to2023")
-def FY2019to2022():
+def FY2020to2023():
     fig5 = plt.figure()
 
 # CSVファイルのURLを指定
