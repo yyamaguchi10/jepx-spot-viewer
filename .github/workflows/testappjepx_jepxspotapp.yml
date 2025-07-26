@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'jepxspotapp'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_992E84E731174CE99B84D3FDDCE652D7 }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
