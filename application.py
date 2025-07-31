@@ -480,8 +480,8 @@ def dayago2():
 def lastweek():
     fig3 = plt.figure()
     # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
