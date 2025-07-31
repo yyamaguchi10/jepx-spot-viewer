@@ -281,7 +281,10 @@ def dayago1():
         ax1.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
             textcoords='offset points', fontsize=5)
 
-    ax1.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
+
     global day1
     day1 = io.BytesIO()
     fig1.savefig(day1, format="png")
@@ -421,7 +424,10 @@ def dayago2():
         ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
             textcoords='offset points', fontsize=5)
 
-    ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
+
     global day2
     day2 = io.BytesIO()
     fig2.savefig(day2, format="png")
@@ -572,7 +578,10 @@ def lastweek():
        # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
          #   textcoords='offset points', fontsize=5)
 
-    ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',fontsize=10)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
+
     global week
     week = io.BytesIO()
     fig3.savefig(week, format="png")
@@ -723,7 +732,10 @@ def lastmonth():
     # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
     #   textcoords='offset points', fontsize=5)
 
-    ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',fontsize=10)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
+
     global month
     month = io.BytesIO()
     fig4.savefig(month, format="png")
