@@ -33,14 +33,14 @@ def index():
     fig = plt.figure()
 
     # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     #年月日データを日付データ型に変換
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
@@ -200,14 +200,14 @@ def dayago1():
     fig1 = plt.figure()
 
     # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
@@ -340,14 +340,14 @@ def dayago1():
 def dayago2():
     fig2 = plt.figure()
     # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
@@ -484,10 +484,10 @@ def lastweek():
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
@@ -631,14 +631,14 @@ def lastmonth():
     fig4 = plt.figure()
 
     # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
-    url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2024 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
@@ -782,14 +782,14 @@ def lastmonth():
 def QR():
 
 # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
 
@@ -806,20 +806,36 @@ def FY2020to2023():
     fig5 = plt.figure()
 
 # CSVファイルのURLを指定
-    url_2023 = 'http://www.jepx.jp/market/excel/spot_2023.csv'
     url_2024 = 'http://www.jepx.jp/market/excel/spot_2024.csv'
+    url_2025 = 'http://www.jepx.jp/market/excel/spot_2025.csv'
 
     # CSVファイルを読み込む
-    df_2023 = pd.read_csv(url_2023,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
     df_2024 = pd.read_csv(url_2024,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
+    df_2025 = pd.read_csv(url_2025,encoding="Shift-JIS",usecols=['年月日','時刻コード','システムプライス(円/kWh)','エリアプライス北海道(円/kWh)','エリアプライス東北(円/kWh)','エリアプライス東京(円/kWh)','エリアプライス中部(円/kWh)','エリアプライス北陸(円/kWh)','エリアプライス関西(円/kWh)','エリアプライス中国(円/kWh)','エリアプライス四国(円/kWh)','エリアプライス九州(円/kWh)'])
 
-    data = pd.concat([df_2023, df_2024])
+    data = pd.concat([df_2024, df_2025])
 
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
 
     latest_date = data.tail(1).iloc[0]['年月日']
     day_ago1 = (latest_date - pd.Timedelta(days=1))
     day_ago2 = (latest_date - pd.Timedelta(days=2))
+
+# 2025CSVデータを読み込む
+    data2025 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2025.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2025['年月日'] = pd.to_datetime(data2025['年月日']).dt.date
+    data2025 = data2025.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2025['Hokuriku'] = data2025['Hokuriku'].astype(float)
+    #data.reset_index()
+    data2025['No'] = range(1, len(data2025.index) + 1)
+
+# 2024CSVデータを読み込む
+    data2024 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2024.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
+    data2024['年月日'] = pd.to_datetime(data2024['年月日']).dt.date
+    data2024 = data2024.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
+    data2024['Hokuriku'] = data2024['Hokuriku'].astype(float)
+    #data.reset_index()
+    data2024['No'] = range(1, len(data2024.index) + 1)
 
     # 2023CSVデータを読み込む
     data2023 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2023.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
@@ -854,6 +870,10 @@ def FY2020to2023():
     data2020['No'] = range(1, len(data2020.index) + 1)
 
     # 列名から必要なデータを選択する
+    x25 = data2025['No']
+    y_riku25 = data2025['Hokuriku']
+    x24 = data2024['No']
+    y_riku24 = data2024['Hokuriku']
     x23 = data2023['No']
     y_riku23 = data2023['Hokuriku']
     x22 = data2022['No']
@@ -865,12 +885,14 @@ def FY2020to2023():
 
     fig5, ax = plt.subplots(tight_layout=True)
 
-    ax.plot(x23, y_riku23, lw = 0.4,color="blue", zorder=2,label = "FY2023")
+    ax.plot(x25, y_riku25, lw = 0.4,color="blue", zorder=2,label = "FY2025")
+    ax.plot(x24, y_riku24, lw = 0.2,color="violet", zorder=2,label = "FY2024")
+    ax.plot(x23, y_riku23, lw = 0.2,color="skyblue", zorder=2,label = "FY2023")
     ax.plot(x22, y_riku22, lw = 0.2,color="red", zorder=1,label = "FY2022")
     ax.plot(x21, y_riku21, lw = 0.2,color="darkgreen", zorder=1,label = "FY2021")
     ax.plot(x20, y_riku20, lw = 0.2,color="black", zorder=1,label = "FY2020")
 
-    title_name = "Hokuriku  FY2020 -> FY2023  price"
+    title_name = "Hokuriku  FY2020 -> FY2025  price"
     ax.set_title(title_name,fontsize=15)
     ax.grid(which='major')
     ax.set_xlabel(" Month(FY)")
@@ -894,6 +916,26 @@ def FY2020to2023():
     fy.seek(0)
     img5 = base64.b64encode(fy.read()).decode()
 
+    #2025最大最小平均を取り出す
+    text_max2025 = ""
+    text_min2025 = ""
+    text_mean2025 = ""
+    max_price2025 = data2025['Hokuriku'].max()
+    text_max2025 = str(round(max_price2025,2))
+    min_price2025 = data2025['Hokuriku'].min()
+    text_min2025 = str(round(min_price2025,2))
+    mean_price2025 = data2025['Hokuriku'].mean()
+    text_mean2025 = str(round(mean_price2025,2))
+    #2024最大最小平均を取り出す
+    text_max2024 = ""
+    text_min2024 = ""
+    text_mean2024 = ""
+    max_price2024 = data2024['Hokuriku'].max()
+    text_max2024 = str(round(max_price2024,2))
+    min_price2024 = data2024['Hokuriku'].min()
+    text_min2024 = str(round(min_price2024,2))
+    mean_price2024 = data2024['Hokuriku'].mean()
+    text_mean2024 = str(round(mean_price2024,2))
     #2023最大最小平均を取り出す
     text_max2023 = ""
     text_min2023 = ""
@@ -936,12 +978,58 @@ def FY2020to2023():
     text_mean2020 = str(round(mean_price2020,2))
 
     maxminmeandata  = {
-    '最高': [text_max2023, text_max2022, text_max2021, text_max2020],
-    '最安': [text_min2023, text_min2022, text_min2021, text_min2020],
-    '平均': [text_mean2023, text_mean2022, text_mean2021, text_mean2020]
+    '最高': [text_max2025, text_max2024, text_max2023, text_max2022, text_max2021, text_max2020],
+    '最安': [text_min2025, text_min2024, text_min2023,text_min2022, text_min2021, text_min2020],
+    '平均': [text_mean2025, text_mean2024, text_mean2023, text_mean2022, text_mean2021, text_mean2020]
     }
     maxminmeandf = pd.DataFrame(maxminmeandata)
-    maxminmeandf.set_axis(["2023","2022","2021","2020"],axis=0,inplace=True)
+    maxminmeandf.set_axis(["2025","2024","2023","2022","2021","2020"],axis=0,inplace=True)
+
+    #参考に年度別グラフを作成 2025
+    fig25, ax25 = plt.subplots(tight_layout=True)
+
+    ax25.plot(x25, y_riku25, lw = 0.4,color="blue", zorder=2,label = "FY2025")
+
+    title_name = "Hokuriku  FY2025  price"
+    ax25.set_title(title_name,fontsize=15)
+    ax25.grid(which='major')
+    ax25.set_xlabel(" Month(FY)")
+    ax25.set_ylabel("Price (¥/kWh)")
+    ax25.set_xlim(0, 17521+1)
+    ax25.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax25.set_xticklabels(["","","","","","","","","","","","",""])
+    ax25.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax25.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax25.set_axisbelow(True)
+
+    global fy25
+    fy25 = io.BytesIO()
+    fig25.savefig(fy25, format="png")
+    fy25.seek(0)
+    img25 = base64.b64encode(fy25.read()).decode()
+ 
+    #参考に年度別グラフを作成 2024
+    fig24, ax24 = plt.subplots(tight_layout=True)
+
+    ax24.plot(x24, y_riku24, lw = 0.4,color="violet", zorder=2,label = "FY2024")
+
+    title_name = "Hokuriku  FY2024  price"
+    ax24.set_title(title_name,fontsize=15)
+    ax24.grid(which='major')
+    ax24.set_xlabel(" Month(FY)")
+    ax24.set_ylabel("Price (¥/kWh)")
+    ax24.set_xlim(0, 17521+1)
+    ax24.set_xticks([0,1440,2928,4368,5856,7344,8784,10272,11712,13200,14688,16032,17520])
+    ax24.set_xticklabels(["","","","","","","","","","","","",""])
+    ax24.set_xticks([720,2184,3648,5112,6600,8064,9528,10992,12456,13944,15360,16776],minor=True)
+    ax24.set_xticklabels(["4","5","6","7","8","9","10","11","12","1","2","3",],minor=True)
+    ax24.set_axisbelow(True)
+
+    global fy24
+    fy24 = io.BytesIO()
+    fig24.savefig(fy24, format="png")
+    fy24.seek(0)
+    img24 = base64.b64encode(fy24.read()).decode()
 
     #参考に年度別グラフを作成 2023
     fig23, ax23 = plt.subplots(tight_layout=True)
@@ -1037,7 +1125,7 @@ def FY2020to2023():
 
 
     # グラフをテンプレートに渡す
-    return render_template('FY2020to2023.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img23=img23,img22=img22,img21=img21,img20=img20,text_max2023=text_max2023,text_min2023=text_min2023,text_mean2023=text_mean2023,text_max2022=text_max2022,text_min2022=text_min2022,text_mean2022=text_mean2022,text_max2021=text_max2021,text_min2021=text_min2021,text_mean2021=text_mean2021,text_max2020=text_max2020,text_min2020=text_min2020,text_mean2020=text_mean2020,maxminmeandf=maxminmeandf.to_html(classes='data', header="true"))
+    return render_template('FY2020to2023.html',latest_date=latest_date,day_ago1=day_ago1,day_ago2=day_ago2,img5=img5,img25=img25,img24=img24,img23=img23,img22=img22,img21=img21,img20=img20,text_max2025=text_max2025,text_min2025=text_min2025,text_mean2025=text_mean2025,text_max2024=text_max2024,text_min2024=text_min2024,text_mean2024=text_mean2024,text_max2023=text_max2023,text_min2023=text_min2023,text_mean2023=text_mean2023,text_max2022=text_max2022,text_min2022=text_min2022,text_mean2022=text_mean2022,text_max2021=text_max2021,text_min2021=text_min2021,text_mean2021=text_mean2021,text_max2020=text_max2020,text_min2020=text_min2020,text_mean2020=text_mean2020,maxminmeandf=maxminmeandf.to_html(classes='data', header="true"))
 
 ## 実行
 if __name__ == "__main__":
