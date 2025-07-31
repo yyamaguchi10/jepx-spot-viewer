@@ -133,7 +133,9 @@ def index():
             textcoords='offset points', fontsize=5)
 
     # 凡例を表示
-    ax.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=6)
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
 
     # 変数newdayを宣言
     global newday
