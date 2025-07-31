@@ -133,7 +133,7 @@ def index():
             textcoords='offset points', fontsize=5)
 
     # 凡例を表示
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=6)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
