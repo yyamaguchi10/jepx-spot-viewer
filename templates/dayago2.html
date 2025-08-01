@@ -33,10 +33,11 @@
         <h1>北陸&nbsp;&nbsp;最高：{{text_max_riku2}} &nbsp;最安：{{text_min_riku2}}&nbsp;平均：{{text_mean_riku2}}</h1>
       </div>
       <div class="price_table">
-      <table >
-        <p>（参考：エリア別単価）<p>
-        {{ today_prices2|safe }}
-      </table>
+        <p style="text-align: left;">（参考：エリア別単価）</p>
+        <table>
+          {{ today_prices|safe }}
+        </table>
       </div>
+
     </body>
 </html>

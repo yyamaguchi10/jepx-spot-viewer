@@ -215,18 +215,18 @@ def dayago1():
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+    data = data.rename(columns={'システムプライス(円/kWh)': 'システムプライス', 'エリアプライス北海道(円/kWh)': '北海道', 'エリアプライス東北(円/kWh)': '東北', 'エリアプライス東京(円/kWh)': '東京', 'エリアプライス中部(円/kWh)': '中部', 'エリアプライス北陸(円/kWh)': '北陸', 'エリアプライス関西(円/kWh)': '関西', 'エリアプライス中国(円/kWh)': '中国', 'エリアプライス四国(円/kWh)': '四国', 'エリアプライス九州(円/kWh)': '九州'})
 
-    data['System_Price'] = data['System_Price'].astype(float)
-    data['Hokkaido'] = data['Hokkaido'].astype(float)
-    data['Tohoku'] = data['Tohoku'].astype(float)
-    data['Tokyo'] = data['Tokyo'].astype(float)
-    data['Chubu'] = data['Chubu'].astype(float)
-    data['Hokuriku'] = data['Hokuriku'].astype(float)
-    data['Kansai'] = data['Kansai'].astype(float)
-    data['Chugoku'] = data['Chugoku'].astype(float)
-    data['Sikoku'] = data['Sikoku'].astype(float)
-    data['Kyushu'] = data['Kyushu'].astype(float)
+    data['システムプライス'] = data['システムプライス'].astype(float)
+    data['北海道'] = data['北海道'].astype(float)
+    data['東北'] = data['東北'].astype(float)
+    data['東京'] = data['東京'].astype(float)
+    data['中部'] = data['中部'].astype(float)
+    data['北陸'] = data['北陸'].astype(float)
+    data['関西'] = data['関西'].astype(float)
+    data['中国'] = data['中国'].astype(float)
+    data['四国'] = data['四国'].astype(float)
+    data['九州'] = data['九州'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     #today = pd.to_datetime('today').date()
@@ -243,29 +243,29 @@ def dayago1():
 
     # 列名から必要なデータを選択する
     x = data['時刻コード']
-    y_sys = data['System_Price']
-    y_hok = data['Hokkaido']
-    y_toh = data['Tohoku']
-    y_tok = data['Tokyo']
-    y_chu = data['Chubu']
-    y_riku = data['Hokuriku']
-    y_kan = data['Kansai']
-    y_chg = data['Chugoku']
-    y_sik = data['Sikoku']
-    y_kyu = data['Kyushu']
+    y_sys = data['システムプライス']
+    y_hok = data['北海道']
+    y_toh = data['東北']
+    y_tok = data['東京']
+    y_chu = data['中部']
+    y_riku = data['北陸']
+    y_kan = data['関西']
+    y_chg = data['中国']
+    y_sik = data['四国']
+    y_kyu = data['九州']
 
     fig1, ax1 = plt.subplots(tight_layout=True)
 
-    ax1.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
-    ax1.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
-    ax1.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
-    ax1.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "Tokyo")
-    ax1.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
-    ax1.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "Hokuriku")
-    ax1.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
-    ax1.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
-    ax1.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
-    ax1.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
+    ax1.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "システムプライス")
+    ax1.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "北海道")
+    ax1.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "東北")
+    ax1.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "東京")
+    ax1.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "中部")
+    ax1.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "北陸")
+    ax1.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "関西")
+    ax1.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "中国")
+    ax1.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "四国")
+    ax1.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "九州")
 
 
     title_name = str(day_ago1) + "  price"
@@ -278,11 +278,11 @@ def dayago1():
     ax1.set_axisbelow(True)
 
 # グラフ上に数値を表示する
-    for i, j in zip(x, y_riku):
-        ax1.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
-            textcoords='offset points', fontsize=5)
+    #for i, j in zip(x, y_riku):
+    #    ax1.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+     #       textcoords='offset points', fontsize=5)
 
-    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=9)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
@@ -303,7 +303,7 @@ def dayago1():
     text_mean_riku1 = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
-    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_prices1に代入
     today_prices1 = data[price_columns]
 
@@ -323,17 +323,17 @@ def dayago1():
     text_mean1 = str(round(mean_price1,2))
 
     # 北陸の最大値を取り出す際は.max()
-    max_price_riku1 = today_prices1['Hokuriku'].max()
+    max_price_riku1 = today_prices1['北陸'].max()
     # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku1に代入
     text_max_riku1 = str(round(max_price_riku1,2))
 
     # 北陸の最小値を取り出す際は.min()
-    min_price_riku1 = today_prices1['Hokuriku'].min()
+    min_price_riku1 = today_prices1['北陸'].min()
     # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku1に代入
     text_min_riku1 = str(round(min_price_riku1,2))
 
     # 北陸の平均を取り出す際は.mean()
-    mean_price_riku1 = today_prices1['Hokuriku'].mean()
+    mean_price_riku1 = today_prices1['北陸'].mean()
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku1に代入
     text_mean_riku1 = str(round(mean_price_riku1,2))
 
@@ -358,18 +358,18 @@ def dayago2():
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+    data = data.rename(columns={'システムプライス(円/kWh)': 'システムプライス', 'エリアプライス北海道(円/kWh)': '北海道', 'エリアプライス東北(円/kWh)': '東北', 'エリアプライス東京(円/kWh)': '東京', 'エリアプライス中部(円/kWh)': '中部', 'エリアプライス北陸(円/kWh)': '北陸', 'エリアプライス関西(円/kWh)': '関西', 'エリアプライス中国(円/kWh)': '中国', 'エリアプライス四国(円/kWh)': '四国', 'エリアプライス九州(円/kWh)': '九州'})
 
-    data['System_Price'] = data['System_Price'].astype(float)
-    data['Hokkaido'] = data['Hokkaido'].astype(float)
-    data['Tohoku'] = data['Tohoku'].astype(float)
-    data['Tokyo'] = data['Tokyo'].astype(float)
-    data['Chubu'] = data['Chubu'].astype(float)
-    data['Hokuriku'] = data['Hokuriku'].astype(float)
-    data['Kansai'] = data['Kansai'].astype(float)
-    data['Chugoku'] = data['Chugoku'].astype(float)
-    data['Sikoku'] = data['Sikoku'].astype(float)
-    data['Kyushu'] = data['Kyushu'].astype(float)
+    data['システムプライス'] = data['システムプライス'].astype(float)
+    data['北海道'] = data['北海道'].astype(float)
+    data['東北'] = data['東北'].astype(float)
+    data['東京'] = data['東京'].astype(float)
+    data['中部'] = data['中部'].astype(float)
+    data['北陸'] = data['北陸'].astype(float)
+    data['関西'] = data['関西'].astype(float)
+    data['中国'] = data['中国'].astype(float)
+    data['四国'] = data['四国'].astype(float)
+    data['九州'] = data['九州'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     #today = pd.to_datetime('today').date()
@@ -386,29 +386,29 @@ def dayago2():
 
     # 列名から必要なデータを選択する
     x = data['時刻コード']
-    y_sys = data['System_Price']
-    y_hok = data['Hokkaido']
-    y_toh = data['Tohoku']
-    y_tok = data['Tokyo']
-    y_chu = data['Chubu']
-    y_riku = data['Hokuriku']
-    y_kan = data['Kansai']
-    y_chg = data['Chugoku']
-    y_sik = data['Sikoku']
-    y_kyu = data['Kyushu']
+    y_sys = data['システムプライス']
+    y_hok = data['北海道']
+    y_toh = data['東北']
+    y_tok = data['東京']
+    y_chu = data['中部']
+    y_riku = data['北陸']
+    y_kan = data['関西']
+    y_chg = data['中国']
+    y_sik = data['四国']
+    y_kyu = data['九州']
 
     fig2, ax = plt.subplots(tight_layout=True)
 
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
-    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
-    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
-    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "Tokyo")
-    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
-    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "Hokuriku")
-    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
-    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
-    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
-    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "システムプライス")
+    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "北海道")
+    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "東北")
+    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "東京")
+    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "中部")
+    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "北陸")
+    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "関西")
+    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "中国")
+    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "四国")
+    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "九州")
 
 
     title_name = str(day_ago2) + "  price"
@@ -421,11 +421,11 @@ def dayago2():
     ax.set_axisbelow(True)
 
 # グラフ上に数値を表示する
-    for i, j in zip(x, y_riku):
-        ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
-            textcoords='offset points', fontsize=5)
+    #for i, j in zip(x, y_riku):
+    #    ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+    #        textcoords='offset points', fontsize=5)
 
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=9)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
@@ -446,7 +446,7 @@ def dayago2():
     text_mean_riku2 = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
-    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_prices2に代入
     today_prices2 = data[price_columns]
 
@@ -466,17 +466,17 @@ def dayago2():
     text_mean2 = str(round(mean_price2,2))
 
     # 北陸の最大値を取り出す際は.max()
-    max_price_riku2 = today_prices2['Hokuriku'].max()
+    max_price_riku2 = today_prices2['北陸'].max()
     # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku2に代入
     text_max_riku2 = str(round(max_price_riku2,2))
 
     # 北陸の最小値を取り出す際は.min()
-    min_price_riku2 = today_prices2['Hokuriku'].min()
+    min_price_riku2 = today_prices2['北陸'].min()
     # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku2に代入
     text_min_riku2 = str(round(min_price_riku2,2))
 
     # 北陸の平均を取り出す際は.mean()
-    mean_price_riku2 = today_prices2['Hokuriku'].mean()
+    mean_price_riku2 = today_prices2['北陸'].mean()
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku2に代入
     text_mean_riku2 = str(round(mean_price_riku2,2))
 
@@ -501,18 +501,18 @@ def lastweek():
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+    data = data.rename(columns={'システムプライス(円/kWh)': 'システムプライス', 'エリアプライス北海道(円/kWh)': '北海道', 'エリアプライス東北(円/kWh)': '東北', 'エリアプライス東京(円/kWh)': '東京', 'エリアプライス中部(円/kWh)': '中部', 'エリアプライス北陸(円/kWh)': '北陸', 'エリアプライス関西(円/kWh)': '関西', 'エリアプライス中国(円/kWh)': '中国', 'エリアプライス四国(円/kWh)': '四国', 'エリアプライス九州(円/kWh)': '九州'})
 
-    data['System_Price'] = data['System_Price'].astype(float)
-    data['Hokkaido'] = data['Hokkaido'].astype(float)
-    data['Tohoku'] = data['Tohoku'].astype(float)
-    data['Tokyo'] = data['Tokyo'].astype(float)
-    data['Chubu'] = data['Chubu'].astype(float)
-    data['Hokuriku'] = data['Hokuriku'].astype(float)
-    data['Kansai'] = data['Kansai'].astype(float)
-    data['Chugoku'] = data['Chugoku'].astype(float)
-    data['Sikoku'] = data['Sikoku'].astype(float)
-    data['Kyushu'] = data['Kyushu'].astype(float)
+    data['システムプライス'] = data['システムプライス'].astype(float)
+    data['北海道'] = data['北海道'].astype(float)
+    data['東北'] = data['東北'].astype(float)
+    data['東京'] = data['東京'].astype(float)
+    data['中部'] = data['中部'].astype(float)
+    data['北陸'] = data['北陸'].astype(float)
+    data['関西'] = data['関西'].astype(float)
+    data['中国'] = data['中国'].astype(float)
+    data['四国'] = data['四国'].astype(float)
+    data['九州'] = data['九州'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     #today = pd.to_datetime('today').date()
@@ -537,29 +537,29 @@ def lastweek():
 
     # 列名から必要なデータを選択する
     x = data['No']
-    y_sys = data['System_Price']
-    y_hok = data['Hokkaido']
-    y_toh = data['Tohoku']
-    y_tok = data['Tokyo']
-    y_chu = data['Chubu']
-    y_riku = data['Hokuriku']
-    y_kan = data['Kansai']
-    y_chg = data['Chugoku']
-    y_sik = data['Sikoku']
-    y_kyu = data['Kyushu']
+    y_sys = data['システムプライス']
+    y_hok = data['北海道']
+    y_toh = data['東北']
+    y_tok = data['東京']
+    y_chu = data['中部']
+    y_riku = data['北陸']
+    y_kan = data['関西']
+    y_chg = data['中国']
+    y_sik = data['四国']
+    y_kyu = data['九州']
 
     fig3, ax = plt.subplots(tight_layout=True)
 
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
-    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
-    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
-    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "Tokyo")
-    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
-    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "Hokuriku")
-    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
-    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
-    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
-    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "システムプライス")
+    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "北海道")
+    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "東北")
+    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "東京")
+    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "中部")
+    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "北陸")
+    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "関西")
+    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "中国")
+    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "四国")
+    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "九州")
 
 
     title_name = str(day_ago6) + "--->" +  str(latest_date)  +"  price"
@@ -579,7 +579,7 @@ def lastweek():
        # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
          #   textcoords='offset points', fontsize=5)
 
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=9)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
@@ -601,7 +601,7 @@ def lastweek():
     text_mean_riku3 = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
-    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_prices3に代入
     today_prices3 = data[price_columns]
 
@@ -621,17 +621,17 @@ def lastweek():
     text_mean3 = str(round(mean_price3,2))
 
     # 北陸の最大値を取り出す際は.max()
-    max_price_riku3 = today_prices3['Hokuriku'].max()
+    max_price_riku3 = today_prices3['北陸'].max()
     # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku3に代入
     text_max_riku3 = str(round(max_price_riku3,2))
 
     # 北陸の最小値を取り出す際は.min()
-    min_price_riku3 = today_prices3['Hokuriku'].min()
+    min_price_riku3 = today_prices3['北陸'].min()
     # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku3に代入
     text_min_riku3 = str(round(min_price_riku3,2))
 
     # 北陸の平均を取り出す際は.mean()
-    mean_price_riku3 = today_prices3['Hokuriku'].mean()
+    mean_price_riku3 = today_prices3['北陸'].mean()
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku3に代入
     text_mean_riku3 = str(round(mean_price_riku3,2))
 
@@ -655,18 +655,18 @@ def lastmonth():
     data['年月日'] = pd.to_datetime(data['年月日']).dt.date
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+    data = data.rename(columns={'システムプライス(円/kWh)': 'システムプライス', 'エリアプライス北海道(円/kWh)': '北海道', 'エリアプライス東北(円/kWh)': '東北', 'エリアプライス東京(円/kWh)': '東京', 'エリアプライス中部(円/kWh)': '中部', 'エリアプライス北陸(円/kWh)': '北陸', 'エリアプライス関西(円/kWh)': '関西', 'エリアプライス中国(円/kWh)': '中国', 'エリアプライス四国(円/kWh)': '四国', 'エリアプライス九州(円/kWh)': '九州'})
 
-    data['System_Price'] = data['System_Price'].astype(float)
-    data['Hokkaido'] = data['Hokkaido'].astype(float)
-    data['Tohoku'] = data['Tohoku'].astype(float)
-    data['Tokyo'] = data['Tokyo'].astype(float)
-    data['Chubu'] = data['Chubu'].astype(float)
-    data['Hokuriku'] = data['Hokuriku'].astype(float)
-    data['Kansai'] = data['Kansai'].astype(float)
-    data['Chugoku'] = data['Chugoku'].astype(float)
-    data['Sikoku'] = data['Sikoku'].astype(float)
-    data['Kyushu'] = data['Kyushu'].astype(float)
+    data['システムプライス'] = data['システムプライス'].astype(float)
+    data['北海道'] = data['北海道'].astype(float)
+    data['東北'] = data['東北'].astype(float)
+    data['東京'] = data['東京'].astype(float)
+    data['中部'] = data['中部'].astype(float)
+    data['北陸'] = data['北陸'].astype(float)
+    data['関西'] = data['関西'].astype(float)
+    data['中国'] = data['中国'].astype(float)
+    data['四国'] = data['四国'].astype(float)
+    data['九州'] = data['九州'].astype(float)
 
     # 現在の日付を取得し、明日のデータを取得
     #today = pd.to_datetime('today').date()
@@ -693,29 +693,29 @@ def lastmonth():
 
     # 列名から必要なデータを選択する
     x = data['No']
-    y_sys = data['System_Price']
-    y_hok = data['Hokkaido']
-    y_toh = data['Tohoku']
-    y_tok = data['Tokyo']
-    y_chu = data['Chubu']
-    y_riku = data['Hokuriku']
-    y_kan = data['Kansai']
-    y_chg = data['Chugoku']
-    y_sik = data['Sikoku']
-    y_kyu = data['Kyushu']
+    y_sys = data['システムプライス']
+    y_hok = data['北海道']
+    y_toh = data['東北']
+    y_tok = data['東京']
+    y_chu = data['中部']
+    y_riku = data['北陸']
+    y_kan = data['関西']
+    y_chg = data['中国']
+    y_sik = data['四国']
+    y_kyu = data['九州']
 
     fig4, ax = plt.subplots(tight_layout=True)
 
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
-    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
-    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
-    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "Tokyo")
-    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
-    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "Hokuriku")
-    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
-    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
-    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
-    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "システムプライス")
+    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "北海道")
+    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "東北")
+    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "東京")
+    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "中部")
+    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "北陸")
+    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "関西")
+    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "中国")
+    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "四国")
+    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "九州")
 
 
     title_name = str(day_ago30) + "--->" +  str(latest_date)  +"  price"
@@ -733,7 +733,7 @@ def lastmonth():
     # ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
     #   textcoords='offset points', fontsize=5)
 
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=9)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
@@ -755,7 +755,7 @@ def lastmonth():
     text_mean_riku4 = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
-    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_prices4に代入
     today_prices4 = data[price_columns]
 
@@ -775,17 +775,17 @@ def lastmonth():
     text_mean4 = str(round(mean_price4,2))
 
     # 北陸の最大値を取り出す際は.max()
-    max_price_riku4 = today_prices4['Hokuriku'].max()
+    max_price_riku4 = today_prices4['北陸'].max()
     # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_riku4に代入
     text_max_riku4 = str(round(max_price_riku4,2))
 
     # 北陸の最小値を取り出す際は.min()
-    min_price_riku4 = today_prices4['Hokuriku'].min()
+    min_price_riku4 = today_prices4['北陸'].min()
     # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_riku4に代入
     text_min_riku4 = str(round(min_price_riku4,2))
 
     # 北陸の平均を取り出す際は.mean()
-    mean_price_riku4 = today_prices4['Hokuriku'].mean()
+    mean_price_riku4 = today_prices4['北陸'].mean()
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_riku4に代入
     text_mean_riku4 = str(round(mean_price_riku4,2))
 
@@ -839,64 +839,64 @@ def FY2020to2023():
 # 2025CSVデータを読み込む
     data2025 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2025.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2025['年月日'] = pd.to_datetime(data2025['年月日']).dt.date
-    data2025 = data2025.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2025['Hokuriku'] = data2025['Hokuriku'].astype(float)
+    data2025 = data2025.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2025['北陸'] = data2025['北陸'].astype(float)
     #data.reset_index()
     data2025['No'] = range(1, len(data2025.index) + 1)
 
 # 2024CSVデータを読み込む
     data2024 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2024.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2024['年月日'] = pd.to_datetime(data2024['年月日']).dt.date
-    data2024 = data2024.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2024['Hokuriku'] = data2024['Hokuriku'].astype(float)
+    data2024 = data2024.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2024['北陸'] = data2024['北陸'].astype(float)
     #data.reset_index()
     data2024['No'] = range(1, len(data2024.index) + 1)
 
     # 2023CSVデータを読み込む
     data2023 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2023.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2023['年月日'] = pd.to_datetime(data2023['年月日']).dt.date
-    data2023 = data2023.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2023['Hokuriku'] = data2023['Hokuriku'].astype(float)
+    data2023 = data2023.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2023['北陸'] = data2023['北陸'].astype(float)
     #data.reset_index()
     data2023['No'] = range(1, len(data2023.index) + 1)
     
     # 2022CSVデータを読み込む
     data2022 =  pd.read_csv('http://www.jepx.jp/market/excel/spot_2022.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2022['年月日'] = pd.to_datetime(data2022['年月日']).dt.date
-    data2022 = data2022.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2022['Hokuriku'] = data2022['Hokuriku'].astype(float)
+    data2022 = data2022.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2022['北陸'] = data2022['北陸'].astype(float)
     #data.reset_index()
     data2022['No'] = range(1, len(data2022.index) + 1)
     
     # 2021CSVデータを読み込む
     data2021 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2021.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2021['年月日'] = pd.to_datetime(data2021['年月日']).dt.date
-    data2021 = data2021.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2021['Hokuriku'] = data2021['Hokuriku'].astype(float)
+    data2021 = data2021.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2021['北陸'] = data2021['北陸'].astype(float)
     #data.reset_index()
     data2021['No'] = range(1, len(data2021.index) + 1)
     
     # 2020CSVデータを読み込む
     data2020 = pd.read_csv('http://www.jepx.jp/market/excel/spot_2020.csv',encoding="Shift-JIS",usecols=['年月日','エリアプライス北陸(円/kWh)'])
     data2020['年月日'] = pd.to_datetime(data2020['年月日']).dt.date
-    data2020 = data2020.rename(columns={ 'エリアプライス北陸(円/kWh)': 'Hokuriku'})
-    data2020['Hokuriku'] = data2020['Hokuriku'].astype(float)
+    data2020 = data2020.rename(columns={ 'エリアプライス北陸(円/kWh)': '北陸'})
+    data2020['北陸'] = data2020['北陸'].astype(float)
     #data.reset_index()
     data2020['No'] = range(1, len(data2020.index) + 1)
 
     # 列名から必要なデータを選択する
     x25 = data2025['No']
-    y_riku25 = data2025['Hokuriku']
+    y_riku25 = data2025['北陸']
     x24 = data2024['No']
-    y_riku24 = data2024['Hokuriku']
+    y_riku24 = data2024['北陸']
     x23 = data2023['No']
-    y_riku23 = data2023['Hokuriku']
+    y_riku23 = data2023['北陸']
     x22 = data2022['No']
-    y_riku22 = data2022['Hokuriku']
+    y_riku22 = data2022['北陸']
     x21 = data2021['No']
-    y_riku21 = data2021['Hokuriku']
+    y_riku21 = data2021['北陸']
     x20 = data2020['No']
-    y_riku20 = data2020['Hokuriku']
+    y_riku20 = data2020['北陸']
 
     fig5, ax = plt.subplots(tight_layout=True)
 
@@ -907,7 +907,7 @@ def FY2020to2023():
     ax.plot(x21, y_riku21, lw = 0.2,color="darkgreen", zorder=1,label = "FY2021")
     ax.plot(x20, y_riku20, lw = 0.2,color="black", zorder=1,label = "FY2020")
 
-    title_name = "Hokuriku  FY2020 -> FY2025  price"
+    title_name = "北陸  FY2020 -> FY2025  price"
     ax.set_title(title_name,fontsize=15)
     ax.grid(which='major')
     ax.set_xlabel(" Month(FY)")
@@ -935,61 +935,61 @@ def FY2020to2023():
     text_max2025 = ""
     text_min2025 = ""
     text_mean2025 = ""
-    max_price2025 = data2025['Hokuriku'].max()
+    max_price2025 = data2025['北陸'].max()
     text_max2025 = str(round(max_price2025,2))
-    min_price2025 = data2025['Hokuriku'].min()
+    min_price2025 = data2025['北陸'].min()
     text_min2025 = str(round(min_price2025,2))
-    mean_price2025 = data2025['Hokuriku'].mean()
+    mean_price2025 = data2025['北陸'].mean()
     text_mean2025 = str(round(mean_price2025,2))
     #2024最大最小平均を取り出す
     text_max2024 = ""
     text_min2024 = ""
     text_mean2024 = ""
-    max_price2024 = data2024['Hokuriku'].max()
+    max_price2024 = data2024['北陸'].max()
     text_max2024 = str(round(max_price2024,2))
-    min_price2024 = data2024['Hokuriku'].min()
+    min_price2024 = data2024['北陸'].min()
     text_min2024 = str(round(min_price2024,2))
-    mean_price2024 = data2024['Hokuriku'].mean()
+    mean_price2024 = data2024['北陸'].mean()
     text_mean2024 = str(round(mean_price2024,2))
     #2023最大最小平均を取り出す
     text_max2023 = ""
     text_min2023 = ""
     text_mean2023 = ""
-    max_price2023 = data2023['Hokuriku'].max()
+    max_price2023 = data2023['北陸'].max()
     text_max2023 = str(round(max_price2023,2))
-    min_price2023 = data2023['Hokuriku'].min()
+    min_price2023 = data2023['北陸'].min()
     text_min2023 = str(round(min_price2023,2))
-    mean_price2023 = data2023['Hokuriku'].mean()
+    mean_price2023 = data2023['北陸'].mean()
     text_mean2023 = str(round(mean_price2023,2))
     #2022最大最小平均を取り出す
     text_max2022 = ""
     text_min2022 = ""
     text_mean2022 = ""
-    max_price2022 = data2022['Hokuriku'].max()
+    max_price2022 = data2022['北陸'].max()
     text_max2022 = str(round(max_price2022,2))
-    min_price2022 = data2022['Hokuriku'].min()
+    min_price2022 = data2022['北陸'].min()
     text_min2022 = str(round(min_price2022,2))
-    mean_price2022 = data2022['Hokuriku'].mean()
+    mean_price2022 = data2022['北陸'].mean()
     text_mean2022 = str(round(mean_price2022,2))
     #2021最大最小平均を取り出す
     text_max2021 = ""
     text_min2021 = ""
     text_mean2021 = ""
-    max_price2021 = data2021['Hokuriku'].max()
+    max_price2021 = data2021['北陸'].max()
     text_max2021 = str(round(max_price2021,2))
-    min_price2021 = data2021['Hokuriku'].min()
+    min_price2021 = data2021['北陸'].min()
     text_min2021 = str(round(min_price2021,2))
-    mean_price2021 = data2021['Hokuriku'].mean()
+    mean_price2021 = data2021['北陸'].mean()
     text_mean2021 = str(round(mean_price2021,2))
     #2020最大最小平均を取り出す
     text_max2020 = ""
     text_min2020 = ""
     text_mean2020 = ""
-    max_price2020 = data2020['Hokuriku'].max()
+    max_price2020 = data2020['北陸'].max()
     text_max2020 = str(round(max_price2020,2))
-    min_price2020 = data2020['Hokuriku'].min()
+    min_price2020 = data2020['北陸'].min()
     text_min2020 = str(round(min_price2020,2))
-    mean_price2020 = data2020['Hokuriku'].mean()
+    mean_price2020 = data2020['北陸'].mean()
     text_mean2020 = str(round(mean_price2020,2))
 
     maxminmeandata  = {
@@ -1005,7 +1005,7 @@ def FY2020to2023():
 
     ax25.plot(x25, y_riku25, lw = 0.4,color="blue", zorder=2,label = "FY2025")
 
-    title_name = "Hokuriku  FY2025  price"
+    title_name = "北陸  FY2025  price"
     ax25.set_title(title_name,fontsize=15)
     ax25.grid(which='major')
     ax25.set_xlabel(" Month(FY)")
@@ -1028,7 +1028,7 @@ def FY2020to2023():
 
     ax24.plot(x24, y_riku24, lw = 0.4,color="violet", zorder=2,label = "FY2024")
 
-    title_name = "Hokuriku  FY2024  price"
+    title_name = "北陸  FY2024  price"
     ax24.set_title(title_name,fontsize=15)
     ax24.grid(which='major')
     ax24.set_xlabel(" Month(FY)")
@@ -1049,9 +1049,9 @@ def FY2020to2023():
     #参考に年度別グラフを作成 2023
     fig23, ax23 = plt.subplots(tight_layout=True)
 
-    ax23.plot(x23, y_riku23, lw = 0.4,color="blue", zorder=2,label = "FY2023")
+    ax23.plot(x23, y_riku23, lw = 0.4,color="skyblue", zorder=2,label = "FY2023")
 
-    title_name = "Hokuriku  FY2023  price"
+    title_name = "北陸  FY2023  price"
     ax23.set_title(title_name,fontsize=15)
     ax23.grid(which='major')
     ax23.set_xlabel(" Month(FY)")
@@ -1074,7 +1074,7 @@ def FY2020to2023():
 
     ax22.plot(x22, y_riku22, lw = 0.4,color="red", zorder=2,label = "FY2022")
 
-    title_name = "Hokuriku  FY2022  price"
+    title_name = "北陸  FY2022  price"
     ax22.set_title(title_name,fontsize=15)
     ax22.grid(which='major')
     ax22.set_xlabel(" Month(FY)")
@@ -1097,7 +1097,7 @@ def FY2020to2023():
 
     ax21.plot(x21, y_riku21, lw = 0.4,color="darkgreen", zorder=2,label = "FY2020")
 
-    title_name = "Hokuriku  FY2021  price"
+    title_name = "北陸  FY2021  price"
     ax21.set_title(title_name,fontsize=15)
     ax21.grid(which='major')
     ax21.set_xlabel(" Month(FY)")
@@ -1120,7 +1120,7 @@ def FY2020to2023():
 
     ax20.plot(x20, y_riku20, lw = 0.4,color="black", zorder=2,label = "FY2019")
 
-    title_name = "Hokuriku  FY2020  price"
+    title_name = "北陸  FY2020  price"
     ax20.set_title(title_name,fontsize=15)
     ax20.grid(which='major')
     ax20.set_xlabel(" Month(FY)")
