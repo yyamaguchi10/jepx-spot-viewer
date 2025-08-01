@@ -128,12 +128,13 @@ def index():
     ax.set_axisbelow(True)
 
     # グラフ上に北陸の数値y_rikuを表示する  xytext=(+1, +3)で少しずらして表記し見やすく
-    for i, j in zip(x, y_riku):
-        ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
-            textcoords='offset points', fontsize=5)
+    # 見にくいので表示削除20250801
+    # for i, j in zip(x, y_riku):
+    #    ax.annotate(str(round(j,2)), xy=(i, j), xycoords='data', xytext=(+1, +3),
+    #        textcoords='offset points', fontsize=5)
 
     # 凡例を表示
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=7)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=6, fontsize=9)
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.2)
 
