@@ -10,7 +10,7 @@
       <div class="header">
         <div class="header-logo">JEPX Price!!</div>
         <div class="header-list">
-          <p>・最新のスポット市場価格を表示します<br>（数値表示は北陸エリア）</p>
+          <p>・最新のスポット市場価格を表示します<br>（青色太線は北陸エリア）</p>
         </div>
       </div>
       <div class="datelink">
@@ -33,10 +33,11 @@
         <h1>北陸&nbsp;&nbsp;最高：{{text_max_riku}} &nbsp;最安：{{text_min_riku}}&nbsp;平均：{{text_mean_riku}}</h1>
       </div>
       <div class="price_table">
-      <table >
-        <p>（参考：エリア別単価）<p>
-        {{ today_prices|safe }}
-      </table>
+        <p style="text-align: left;">（参考：エリア別単価）</p>
+        <table>
+          {{ today_prices|safe }}
+        </table>
       </div>
+
     </body>
 </html>

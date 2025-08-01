@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 #pyplotがimportされる前に[matplotlib.use('Agg')]でグラフ表示可能に
 import matplotlib.pyplot as plt
+import japanize_matplotlib  # 日本語対応
 import base64
 import os
 import io
@@ -47,21 +48,20 @@ def index():
     #時刻コードを数値型(float 小数点型）に変換し、48コマを÷2−0.5で0時開始の24時間に
     data['時刻コード'] = data['時刻コード'].astype(float)
     data['時刻コード'] = data['時刻コード']/2-0.5
-    #matplotlibでは日本語が文字化けするので列名を変換
-    #日本語対応策はあるが安全のため使用せず
-    data = data.rename(columns={'システムプライス(円/kWh)': 'System_Price', 'エリアプライス北海道(円/kWh)': 'Hokkaido', 'エリアプライス東北(円/kWh)': 'Tohoku', 'エリアプライス東京(円/kWh)': 'Tokyo', 'エリアプライス中部(円/kWh)': 'Chubu', 'エリアプライス北陸(円/kWh)': 'Hokuriku', 'エリアプライス関西(円/kWh)': 'Kansai', 'エリアプライス中国(円/kWh)': 'Chugoku', 'エリアプライス四国(円/kWh)': 'Sikoku', 'エリアプライス九州(円/kWh)': 'Kyushu'})
+    #列名を短縮
+    data = data.rename(columns={'システムプライス(円/kWh)': 'システムプライス', 'エリアプライス北海道(円/kWh)': '北海道', 'エリアプライス東北(円/kWh)': '東北', 'エリアプライス東京(円/kWh)': '東京', 'エリアプライス中部(円/kWh)': '中部', 'エリアプライス北陸(円/kWh)': '北陸', 'エリアプライス関西(円/kWh)': '関西', 'エリアプライス中国(円/kWh)': '中国', 'エリアプライス四国(円/kWh)': '四国', 'エリアプライス九州(円/kWh)': '九州'})
 
     #各データを数値型(float 小数点型）に変換
-    data['System_Price'] = data['System_Price'].astype(float)
-    data['Hokkaido'] = data['Hokkaido'].astype(float)
-    data['Tohoku'] = data['Tohoku'].astype(float)
-    data['Tokyo'] = data['Tokyo'].astype(float)
-    data['Chubu'] = data['Chubu'].astype(float)
-    data['Hokuriku'] = data['Hokuriku'].astype(float)
-    data['Kansai'] = data['Kansai'].astype(float)
-    data['Chugoku'] = data['Chugoku'].astype(float)
-    data['Sikoku'] = data['Sikoku'].astype(float)
-    data['Kyushu'] = data['Kyushu'].astype(float)
+    data['システムプライス'] = data['システムプライス'].astype(float)
+    data['北海道'] = data['北海道'].astype(float)
+    data['東北'] = data['東北'].astype(float)
+    data['東京'] = data['東京'].astype(float)
+    data['中部'] = data['中部'].astype(float)
+    data['北陸'] = data['北陸'].astype(float)
+    data['関西'] = data['関西'].astype(float)
+    data['中国'] = data['中国'].astype(float)
+    data['四国'] = data['四国'].astype(float)
+    data['九州'] = data['九州'].astype(float)
 
     # メモ 現在の日付を取得し、昨日や明日のデータを取得する場合
     #today = pd.to_datetime('today').date()
@@ -83,32 +83,32 @@ def index():
 
     # 列名からグラフに使う x軸,y軸 データを選択する
     x = data['時刻コード']
-    y_sys = data['System_Price']
-    y_hok = data['Hokkaido']
-    y_toh = data['Tohoku']
-    y_tok = data['Tokyo']
-    y_chu = data['Chubu']
-    y_riku = data['Hokuriku']
-    y_kan = data['Kansai']
-    y_chg = data['Chugoku']
-    y_sik = data['Sikoku']
-    y_kyu = data['Kyushu']
+    y_sys = data['システムプライス']
+    y_hok = data['北海道']
+    y_toh = data['東北']
+    y_tok = data['東京']
+    y_chu = data['中部']
+    y_riku = data['北陸']
+    y_kan = data['関西']
+    y_chg = data['中国']
+    y_sik = data['四国']
+    y_kyu = data['九州']
     # グラフを描く  tight_layout=Trueはグラフサイズ自動調整
     fig, ax = plt.subplots(tight_layout=True)
 
     # 同じグラフに折れ線グラフを複数作成
     # ax.plotでx,yを指定
     # lwは線の太さ、ls=dashedで点線に、colorで色指定、zorderで数値の大きい線が前に、labelは凡例表示に使う文字を指定
-    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "System_Price")
-    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "Hokkaido")
-    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "Tohoku")
-    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "Tokyo")
-    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "Chubu")
-    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "Hokuriku")
-    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "Kansai")
-    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "Chugoku")
-    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "Sikoku")
-    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "Kyushu")
+    ax.plot(x, y_sys, lw = 1,ls="dashed",color="red", zorder=1, label = "システムプライス")
+    ax.plot(x, y_hok, lw = 1,color="green", zorder=1, label = "北海道")
+    ax.plot(x, y_toh, lw = 1,color="brown", zorder=1, label = "東北")
+    ax.plot(x, y_tok, lw = 1.3,color="red", zorder=2, label = "東京")
+    ax.plot(x, y_chu, lw = 1,color="lime", zorder=1, label = "中部")
+    ax.plot(x, y_riku, lw = 2,color="blue", zorder=3,label = "北陸")
+    ax.plot(x, y_kan, lw = 1,color="orange", zorder=1, label = "関西")
+    ax.plot(x, y_chg, lw = 1,color="olive", zorder=1, label = "中国")
+    ax.plot(x, y_sik, lw = 1,color="pink", zorder=1, label = "四国")
+    ax.plot(x, y_kyu, lw = 1,color="magenta", zorder=1, label = "九州")
 
     # グラフタイトルに使う文字を変数title_nameに代入
     # 日付データの変数latest_dateをstr関数で文字データ化
@@ -158,7 +158,7 @@ def index():
     text_mean_riku = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
-    price_columns = ['Hokkaido', 'Tohoku', 'Tokyo', 'Chubu', 'Hokuriku', 'Kansai', 'Chugoku', 'Sikoku', 'Kyushu']
+    price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_pricesに代入
     today_prices = data[price_columns]
 
@@ -178,17 +178,17 @@ def index():
     text_mean = str(round(mean_price,2))
 
     # 北陸の最大値を取り出す際は.max()
-    max_price_riku = today_prices['Hokuriku'].max()
+    max_price_riku = today_prices['北陸'].max()
     # 最大値を小数点第2位で四捨五入してstrで文字列に変換しtext_max_rikuに代入
     text_max_riku = str(round(max_price_riku,2))
 
     # 北陸の最小値を取り出す際は.min()
-    min_price_riku = today_prices['Hokuriku'].min()
+    min_price_riku = today_prices['北陸'].min()
     # 最小値を小数点第2位で四捨五入してstrで文字列に変換しtext_min_rikuに代入
     text_min_riku = str(round(min_price_riku,2))
 
     # 北陸の平均を取り出す際は.mean()
-    mean_price_riku = today_prices['Hokuriku'].mean()
+    mean_price_riku = today_prices['北陸'].mean()
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean_rikuに代入
     text_mean_riku = str(round(mean_price_riku,2))
 
