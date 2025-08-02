@@ -157,11 +157,14 @@ def index():
     text_max_riku = ""
     text_min_riku = ""
     text_mean_riku = ""
+    text_max_sys = ""
+    text_min_sys = ""
+    text_mean_sys = ""
 
     # 最大最小平均を抽出する列名を変数price_columnsに代入
     price_columns = ['北海道', '東北', '東京', '中部', '北陸', '関西', '中国', '四国', '九州']
     # データのうち日付データ等を除くエリアデータのみ変数today_pricesに代入
-    today_prices = data[price_columns]
+    today_prices = data[price_columns].apply(pd.to_numeric, errors='coerce')  # 数値に変換しつつエラーはNaNに
 
     # 全体の最大値を取り出す際は.max().max()
     max_price = today_prices.max().max()
@@ -174,7 +177,11 @@ def index():
     text_min = str(round(min_price,2))
 
     # 全体の平均を取り出す際は.mean().mean()
+    # 全体の平均を取り出す際は.mean().mean()
     mean_price = today_prices.mean().mean()
+    # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_mean1に代入
+    text_mean = str(round(mean_price,2))
+
     # 平均値を小数点第2位で四捨五入してstrで文字列に変換しtext_meanに代入
     text_mean = str(round(mean_price,2))
 
