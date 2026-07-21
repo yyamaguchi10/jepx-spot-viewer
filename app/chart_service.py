@@ -16,8 +16,8 @@ import japanize_matplotlib  # noqa: F401
 
 from .config import (
     ALL_PRICE_COLUMNS,
-    FISCAL_YEAR_COLORS,
     LINE_SETTINGS,
+    get_fiscal_year_color,
 )
 
 
@@ -156,19 +156,28 @@ def create_fiscal_comparison_chart(
             frame["No"],
             frame["北陸"],
             lw=0.4 if year >= 2025 else 0.2,
-            color=FISCAL_YEAR_COLORS[year],
+            color=get_fiscal_year_color(year),
             zorder=2 if year >= 2023 else 1,
             label=f"FY{year}",
         )
 
-    ax.set_title("北陸  FY2020 -> FY2026  price", fontsize=15)
+    first_year = min(yearly_data)
+    last_year = max(yearly_data)
+
+    ax.set_title(
+        f"北陸  FY{first_year} -> FY{last_year}  price",
+        fontsize=15,
+    )
+
     _configure_fiscal_axis(ax)
+
     ax.legend(
         loc="upper left",
         fontsize=10,
         framealpha=1,
         labelcolor="linecolor",
     )
+
     return _figure_to_base64(fig)
 
 
@@ -177,14 +186,21 @@ def create_single_fiscal_chart(
     data: pd.DataFrame,
 ) -> str:
     fig, ax = plt.subplots(tight_layout=True)
+
     ax.plot(
         data["No"],
         data["北陸"],
         lw=0.4,
-        color=FISCAL_YEAR_COLORS[year],
+        color=get_fiscal_year_color(year),
         zorder=2,
         label=f"FY{year}",
     )
-    ax.set_title(f"北陸  FY{year}  price", fontsize=15)
+
+    ax.set_title(
+        f"北陸  FY{year}  price",
+        fontsize=15,
+    )
+
     _configure_fiscal_axis(ax)
+
     return _figure_to_base64(fig)

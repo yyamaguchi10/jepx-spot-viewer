@@ -1,16 +1,25 @@
 """アプリ全体で利用する設定値。"""
 
-
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 
-CURRENT_YEARS = (2025, 2026)
-FISCAL_YEARS = tuple(range(2020, 2027))
+DATA_START_YEAR = 2020
+CURRENT_YEAR = date.today().year
+
+CURRENT_YEARS = (
+    CURRENT_YEAR - 1,
+    CURRENT_YEAR,
+)
+
+FISCAL_YEARS = tuple(
+    range(DATA_START_YEAR, CURRENT_YEAR + 1)
+)
 
 CSV_URL_TEMPLATE = "http://www.jepx.jp/market/excel/spot_{year}.csv"
 CSV_FILE_TEMPLATE = "spot_{year}.csv"
@@ -91,3 +100,8 @@ FISCAL_YEAR_COLORS = {
     2021: "darkgreen",
     2020: "black",
 }
+
+
+def get_fiscal_year_color(year: int) -> str | None:
+    """年度比較グラフの色を返す。未登録年度はMatplotlibの標準色を使う。"""
+    return FISCAL_YEAR_COLORS.get(year)
