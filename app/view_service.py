@@ -17,8 +17,10 @@ from .data_service import (
     get_date_information,
     get_day_data,
     get_recent_data,
-    load_fiscal_year_data,
-    load_market_data,
+)
+from .repository import (
+    get_fiscal_year_data,
+    get_market_data,
 )
 
 
@@ -52,7 +54,7 @@ def _common_dates(data: pd.DataFrame) -> dict[str, Any]:
 
 def build_daily_context(offset_days: int) -> dict[str, Any]:
     """最新日、前日、前々日の画面用データを生成する。"""
-    all_data = load_market_data()
+    all_data = get_market_data()
     dates = _common_dates(all_data)
     target_date = dates["latest_date"] - pd.Timedelta(days=offset_days)
     day_data = get_day_data(all_data, target_date)
@@ -93,7 +95,7 @@ def build_daily_context(offset_days: int) -> dict[str, Any]:
 
 
 def build_period_context(days: int) -> dict[str, Any]:
-    all_data = load_market_data()
+    all_data = get_market_data()
     dates = _common_dates(all_data)
     latest_date = dates["latest_date"]
     first_date = latest_date - pd.Timedelta(days=days - 1)
@@ -125,7 +127,7 @@ def build_period_context(days: int) -> dict[str, Any]:
 
 
 def build_qr_context() -> dict[str, Any]:
-    return _common_dates(load_market_data())
+    return _common_dates(get_market_data())
 
 
 def _year_statistics(data: pd.DataFrame) -> dict[str, str]:
@@ -137,11 +139,11 @@ def _year_statistics(data: pd.DataFrame) -> dict[str, str]:
 
 
 def build_fiscal_context() -> dict[str, Any]:
-    current_data = load_market_data()
+    current_data = get_market_data()
     context: dict[str, Any] = _common_dates(current_data)
 
     yearly_data = {
-        year: load_fiscal_year_data(year)
+        year: get_fiscal_year_data(year)
         for year in FISCAL_YEARS
     }
 
