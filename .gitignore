@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+
+# Flask / local settings
+.env
+
+# macOS
+.DS_Store
+
+# Downloaded JEPX data
+data/*
+!data/.gitkeep

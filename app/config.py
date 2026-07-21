@@ -1,11 +1,19 @@
 """アプリ全体で利用する設定値。"""
 
+
 from __future__ import annotations
+
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
 
 CURRENT_YEARS = (2025, 2026)
 FISCAL_YEARS = tuple(range(2020, 2027))
 
 CSV_URL_TEMPLATE = "http://www.jepx.jp/market/excel/spot_{year}.csv"
+CSV_FILE_TEMPLATE = "spot_{year}.csv"
 CSV_ENCODING = "Shift-JIS"
 
 SOURCE_COLUMNS = [
