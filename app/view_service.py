@@ -6,11 +6,11 @@ from typing import Any
 
 import pandas as pd
 
-from .chart_service import (
-    create_daily_chart,
-    create_fiscal_comparison_chart,
-    create_period_chart,
-    create_single_fiscal_chart,
+from .chart_repository import (
+    get_daily_chart,
+    get_fiscal_comparison_chart,
+    get_period_chart,
+    get_single_fiscal_chart,
 )
 from .config import FISCAL_YEARS, PRICE_COLUMNS, TIME_LABELS
 from .data_service import (
@@ -68,7 +68,10 @@ def build_daily_context(offset_days: int) -> dict[str, Any]:
     if len(table) == len(TIME_LABELS):
         table.index = TIME_LABELS
 
-    image = create_daily_chart(day_data, target_date)
+    image = get_daily_chart(
+    day_data,
+    target_date,
+)
 
     suffix = "" if offset_days == 0 else str(offset_days)
     context = {
@@ -106,11 +109,11 @@ def build_period_context(days: int) -> dict[str, Any]:
     )
 
     stats = _price_statistics(period_data)
-    image = create_period_chart(
-        period_data,
-        first_date=first_date,
-        latest_date=latest_date,
-        days=days,
+    image = get_period_chart(
+    period_data,
+    first_date=first_date,
+    latest_date=latest_date,
+    days=days,
     )
 
     suffix = "3" if days == 7 else "4"
@@ -147,13 +150,13 @@ def build_fiscal_context() -> dict[str, Any]:
         for year in FISCAL_YEARS
     }
 
-    context["img5"] = create_fiscal_comparison_chart(yearly_data)
+    context["img5"] = get_fiscal_comparison_chart(yearly_data)
 
     summary_rows: list[dict[str, str]] = []
     for year in sorted(FISCAL_YEARS, reverse=True):
         stats = _year_statistics(yearly_data[year])
 
-        context[f"img{str(year)[-2:]}"] = create_single_fiscal_chart(
+        context[f"img{str(year)[-2:]}"] = get_single_fiscal_chart(
             year,
             yearly_data[year],
         )
