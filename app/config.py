@@ -105,3 +105,28 @@ FISCAL_YEAR_COLORS = {
 def get_fiscal_year_color(year: int) -> str | None:
     """年度比較グラフの色を返す。未登録年度はMatplotlibの標準色を使う。"""
     return FISCAL_YEAR_COLORS.get(year)
+
+
+def get_fiscal_comparison_line_settings(
+    year: int,
+) -> dict[str, float | int | str | None]:
+    """年度比較グラフで使用する線の設定を返す。"""
+    recent_line_start_year = CURRENT_YEAR - 1
+    foreground_start_year = CURRENT_YEAR - 3
+
+    return {
+        "lw": 0.4 if year >= recent_line_start_year else 0.2,
+        "color": get_fiscal_year_color(year),
+        "zorder": 2 if year >= foreground_start_year else 1,
+    }
+
+
+def get_single_fiscal_line_settings(
+    year: int,
+) -> dict[str, float | int | str | None]:
+    """単年度グラフで使用する線の設定を返す。"""
+    return {
+        "lw": 0.4,
+        "color": get_fiscal_year_color(year),
+        "zorder": 2,
+    }

@@ -17,7 +17,8 @@ import japanize_matplotlib  # noqa: F401
 from .config import (
     ALL_PRICE_COLUMNS,
     LINE_SETTINGS,
-    get_fiscal_year_color,
+    get_fiscal_comparison_line_settings,
+    get_single_fiscal_line_settings,
 )
 
 
@@ -155,10 +156,8 @@ def create_fiscal_comparison_chart(
         ax.plot(
             frame["No"],
             frame["北陸"],
-            lw=0.4 if year >= 2025 else 0.2,
-            color=get_fiscal_year_color(year),
-            zorder=2 if year >= 2023 else 1,
             label=f"FY{year}",
+            **get_fiscal_comparison_line_settings(year),
         )
 
     first_year = min(yearly_data)
@@ -190,10 +189,8 @@ def create_single_fiscal_chart(
     ax.plot(
         data["No"],
         data["北陸"],
-        lw=0.4,
-        color=get_fiscal_year_color(year),
-        zorder=2,
         label=f"FY{year}",
+        **get_single_fiscal_line_settings(year),
     )
 
     ax.set_title(
