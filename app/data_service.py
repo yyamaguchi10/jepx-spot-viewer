@@ -14,11 +14,13 @@ import pandas as pd
 
 from .config import (
     ALL_PRICE_COLUMNS,
-    CSV_ENCODING,
-    CSV_URL_TEMPLATE,
     CURRENT_YEARS,
     RENAME_COLUMNS,
     SOURCE_COLUMNS,
+)
+from .source_repository import (
+    SourceLoadError,
+    read_source_csv,
 )
 
 _CACHE_TTL_SECONDS = 30 * 60
@@ -33,21 +35,19 @@ class DataLoadError(RuntimeError):
     """JEPXデータの取得・変換に失敗した場合。"""
 
 
-def _csv_url(year: int) -> str:
-    return CSV_URL_TEMPLATE.format(year=year)
 
 
-def _read_year(year: int, usecols: list[str]) -> pd.DataFrame:
+def _read_year(
+    year: int,
+    usecols: list[str],
+) -> pd.DataFrame:
     try:
-        return pd.read_csv(
-            _csv_url(year),
-            encoding=CSV_ENCODING,
-            usecols=usecols,
+        return read_source_csv(
+            year,
+            usecols,
         )
-    except Exception as exc:
-        raise DataLoadError(
-            f"{year}年のJEPX CSVを取得できませんでした。"
-        ) from exc
+    except SourceLoadError as exc:
+        raise DataLoadError(str(exc)) from exc
 
 
 def _normalize_market_data(data: pd.DataFrame) -> pd.DataFrame:
