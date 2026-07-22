@@ -18,7 +18,7 @@ from .data_service import (
     get_day_data,
     get_recent_data,
 )
-from .models import PriceStatistics
+from .models import FiscalYearStatistics, PriceStatistics
 from .repository import (
     get_fiscal_year_data,
     get_market_data,
@@ -136,12 +136,16 @@ def build_qr_context() -> dict[str, Any]:
     return _common_dates(get_market_data())
 
 
-def _year_statistics(data: pd.DataFrame) -> dict[str, str]:
-    return {
-        "max": _format_number(data["北陸"].max()),
-        "min": _format_number(data["北陸"].min()),
-        "mean": _format_number(data["北陸"].mean()),
-    }
+def _year_statistics(
+    year: int,
+    data: pd.DataFrame,
+) -> FiscalYearStatistics:
+    return FiscalYearStatistics(
+        year=year,
+        maximum=_format_number(data["北陸"].max()),
+        minimum=_format_number(data["北陸"].min()),
+        mean=_format_number(data["北陸"].mean()),
+    )
 
 
 def build_fiscal_context() -> dict[str, Any]:
@@ -157,22 +161,25 @@ def build_fiscal_context() -> dict[str, Any]:
 
     summary_rows: list[dict[str, str]] = []
     for year in sorted(FISCAL_YEARS, reverse=True):
-        stats = _year_statistics(yearly_data[year])
+        stats = _year_statistics(
+            year,
+            yearly_data[year],
+        )
 
         context[f"img{str(year)[-2:]}"] = get_single_fiscal_chart(
             year,
             yearly_data[year],
         )
-        context[f"text_max{year}"] = stats["max"]
-        context[f"text_min{year}"] = stats["min"]
-        context[f"text_mean{year}"] = stats["mean"]
+        context[f"text_max{year}"] = stats.maximum
+        context[f"text_min{year}"] = stats.minimum
+        context[f"text_mean{year}"] = stats.mean
 
         summary_rows.append(
             {
-                "年度": str(year),
-                "最高": stats["max"],
-                "最安": stats["min"],
-                "平均": stats["mean"],
+                "年度": str(stats.year),
+                "最高": stats.maximum,
+                "最安": stats.minimum,
+                "平均": stats.mean,
             }
         )
 
