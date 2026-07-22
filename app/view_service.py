@@ -44,11 +44,12 @@ def _price_statistics(data: pd.DataFrame) -> dict[str, str]:
 
 
 def _common_dates(data: pd.DataFrame) -> dict[str, Any]:
-    latest_date, day_ago1, day_ago2 = get_date_information(data)
+    dates = get_date_information(data)
+
     return {
-        "latest_date": latest_date,
-        "day_ago1": day_ago1,
-        "day_ago2": day_ago2,
+        "latest_date": dates.latest_date,
+        "day_ago1": dates.day_ago1,
+        "day_ago2": dates.day_ago2,
     }
 
 

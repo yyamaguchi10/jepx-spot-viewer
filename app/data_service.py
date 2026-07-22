@@ -23,6 +23,8 @@ from .source_repository import (
     read_source_csv,
 )
 
+from .models import DateInformation
+
 _CACHE_TTL_SECONDS = 30 * 60
 _cache_lock = Lock()
 _cache_data: pd.DataFrame | None = None
@@ -147,12 +149,15 @@ def load_fiscal_year_data(
 
 def get_date_information(
     data: pd.DataFrame,
-) -> tuple[object, object, object]:
+) -> DateInformation:
     """最新日・1日前・2日前を返す。"""
     latest_date = data["年月日"].max()
-    day_ago1 = latest_date - pd.Timedelta(days=1)
-    day_ago2 = latest_date - pd.Timedelta(days=2)
-    return latest_date, day_ago1, day_ago2
+
+    return DateInformation(
+        latest_date=latest_date,
+        day_ago1=latest_date - pd.Timedelta(days=1),
+        day_ago2=latest_date - pd.Timedelta(days=2),
+    )
 
 
 def get_day_data(
