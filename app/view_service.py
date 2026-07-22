@@ -18,6 +18,7 @@ from .data_service import (
     get_day_data,
     get_recent_data,
 )
+from .models import PriceStatistics
 from .repository import (
     get_fiscal_year_data,
     get_market_data,
@@ -28,19 +29,20 @@ def _format_number(value: float) -> str:
     return str(round(float(value), 2))
 
 
-def _price_statistics(data: pd.DataFrame) -> dict[str, str]:
+def _price_statistics(data: pd.DataFrame) -> PriceStatistics:
     prices = data[PRICE_COLUMNS].apply(
         pd.to_numeric,
         errors="coerce",
     )
-    return {
-        "max": _format_number(prices.max().max()),
-        "min": _format_number(prices.min().min()),
-        "mean": _format_number(prices.mean().mean()),
-        "hokuriku_max": _format_number(prices["北陸"].max()),
-        "hokuriku_min": _format_number(prices["北陸"].min()),
-        "hokuriku_mean": _format_number(prices["北陸"].mean()),
-    }
+
+    return PriceStatistics(
+        maximum=_format_number(prices.max().max()),
+        minimum=_format_number(prices.min().min()),
+        mean=_format_number(prices.mean().mean()),
+        hokuriku_maximum=_format_number(prices["北陸"].max()),
+        hokuriku_minimum=_format_number(prices["北陸"].min()),
+        hokuriku_mean=_format_number(prices["北陸"].mean()),
+    )
 
 
 def _common_dates(data: pd.DataFrame) -> dict[str, Any]:
@@ -76,19 +78,19 @@ def build_daily_context(offset_days: int) -> dict[str, Any]:
 
     suffix = "" if offset_days == 0 else str(offset_days)
     context = {
-        **dates,
-        f"img{suffix}": image,
-        f"text_max{suffix}": stats["max"],
-        f"text_min{suffix}": stats["min"],
-        f"text_mean{suffix}": stats["mean"],
-        f"text_max_riku{suffix}": stats["hokuriku_max"],
-        f"text_min_riku{suffix}": stats["hokuriku_min"],
-        f"text_mean_riku{suffix}": stats["hokuriku_mean"],
-        f"today_prices{suffix}": table.to_html(
-            classes="data",
-            header=True,
-        ),
-    }
+    **dates,
+    f"img{suffix}": image,
+    f"text_max{suffix}": stats.maximum,
+    f"text_min{suffix}": stats.minimum,
+    f"text_mean{suffix}": stats.mean,
+    f"text_max_riku{suffix}": stats.hokuriku_maximum,
+    f"text_min_riku{suffix}": stats.hokuriku_minimum,
+    f"text_mean_riku{suffix}": stats.hokuriku_mean,
+    f"today_prices{suffix}": table.to_html(
+        classes="data",
+        header=True,
+    ),
+}
 
     # index.htmlだけは元コードの変数名がimg、today_prices。
     if offset_days == 0:
@@ -119,15 +121,15 @@ def build_period_context(days: int) -> dict[str, Any]:
 
     suffix = "3" if days == 7 else "4"
     return {
-        **dates,
-        f"img{suffix}": image,
-        f"text_max{suffix}": stats["max"],
-        f"text_min{suffix}": stats["min"],
-        f"text_mean{suffix}": stats["mean"],
-        f"text_max_riku{suffix}": stats["hokuriku_max"],
-        f"text_min_riku{suffix}": stats["hokuriku_min"],
-        f"text_mean_riku{suffix}": stats["hokuriku_mean"],
-    }
+    **dates,
+    f"img{suffix}": image,
+    f"text_max{suffix}": stats.maximum,
+    f"text_min{suffix}": stats.minimum,
+    f"text_mean{suffix}": stats.mean,
+    f"text_max_riku{suffix}": stats.hokuriku_maximum,
+    f"text_min_riku{suffix}": stats.hokuriku_minimum,
+    f"text_mean_riku{suffix}": stats.hokuriku_mean,
+}
 
 
 def build_qr_context() -> dict[str, Any]:
