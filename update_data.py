@@ -56,7 +56,7 @@ def _validate_csv(csv_path: Path, year: int) -> None:
         )
 
 
-def download_year(year: int) -> Path:
+def download_year(year: int) -> tuple[Path, bool]:
     """指定年のCSVを安全に更新する。"""
     DATA_DIR.mkdir(
         parents=True,
@@ -78,6 +78,12 @@ def download_year(year: int) -> Path:
             year,
         )
 
+        if destination.exists():
+            if destination.read_bytes() == temporary.read_bytes():
+                print(f"No changes: {destination}")
+                temporary.unlink()
+                return destination, False
+
         os.replace(
             temporary,
             destination,
@@ -95,17 +101,21 @@ def download_year(year: int) -> Path:
         if temporary.exists():
             temporary.unlink()
 
-    print(f"Saved: {destination}")
-    return destination
+    print(f"Updated: {destination}")
+    return destination, True
 
 
 def update_all() -> None:
     """表示と年度比較に必要な全CSVを更新する。"""
     failed_years: list[int] = []
+    updated_years: list[int] = []
 
     for year in FISCAL_YEARS:
         try:
-            download_year(year)
+            _, updated = download_year(year)
+
+            if updated:
+                updated_years.append(year)
         except DataUpdateError as exc:
             failed_years.append(year)
             print(f"ERROR: {exc}")
@@ -116,6 +126,11 @@ def update_all() -> None:
             f"更新に失敗した年度: {years}"
         )
 
+    if updated_years:
+        years = ", ".join(str(year) for year in updated_years)
+        print(f"Updated years: {years}")
+    else:
+        print("Updated years: None")
     print("All JEPX CSV files were updated successfully.")
 
 
