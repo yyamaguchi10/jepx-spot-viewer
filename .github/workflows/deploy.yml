@@ -21,13 +21,21 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Test Install
+      - name: Deploy Application
         run: |
-         ssh -o StrictHostKeyChecking=yes \
-             -i ~/.ssh/id_ed25519 \
-             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-             "
-             cd /home/ubuntu/jepx-spot-viewer &&
-             git pull origin testappjepx &&
-             .venv/bin/python -m pip install -r requirements.txt
-             "
+          ssh -o StrictHostKeyChecking=yes \
+              -i ~/.ssh/id_ed25519 \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "
+              set -e
+
+              cd /home/ubuntu/jepx-spot-viewer &&
+
+              git pull origin testappjepx &&
+
+              .venv/bin/python -m pip install -r requirements.txt &&
+
+              sudo -n systemctl restart jepx.service &&
+
+              sudo -n systemctl is-active --quiet jepx.service
+              "
