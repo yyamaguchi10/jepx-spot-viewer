@@ -21,9 +21,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Test SSH
+      - name: Test Git Pull
         run: |
           ssh -o StrictHostKeyChecking=yes \
               -i ~/.ssh/id_ed25519 \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-              "echo 'Hello from VPS'; hostname; pwd"
+              "
+              cd /home/ubuntu/jepx-spot-viewer &&
+              git status &&
+              git pull origin testappjepx
+             "
