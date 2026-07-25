@@ -15,39 +15,98 @@ permissions:
 
 jobs:
   deploy:
+    name: Deploy application
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
+      - name: Check required secrets
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          test -n "$VPS_HOST" || { echo "VPS_HOST is not set."; exit 1; }
+          test -n "$VPS_USER" || { echo "VPS_USER is not set."; exit 1; }
+          test -n "$VPS_SSH_KEY" || { echo "VPS_SSH_KEY is not set."; exit 1; }
+
       - name: Configure SSH
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
         run: |
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          install -m 700 -d "$HOME/.ssh"
 
-      - name: Update application on VPS
+          printf '%s\n' "$VPS_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+
+          ssh-keyscan -H "$VPS_HOST" >> "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Deploy to VPS
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          ssh -i ~/.ssh/id_ed25519 -o BatchMode=yes "$VPS_USER@$VPS_HOST" << 'EOF'
-            set -euo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_ed25519" \
+            -o BatchMode=yes \
+            -o ConnectTimeout=15 \
+            "$VPS_USER@$VPS_HOST" << 'EOF'
 
-            cd /home/ubuntu/jepx-spot-viewer
+            set -Eeuo pipefail
 
-            git fetch origin testappjepx
-            git checkout testappjepx
-            git pull --ff-only origin testappjepx
+            APP_DIR="/home/ubuntu/jepx-spot-viewer"
+            BRANCH="testappjepx"
 
-            .venv/bin/pip install -r requirements.txt
+            echo "Moving to application directory..."
+            cd "$APP_DIR"
 
-            sudo /usr/bin/systemctl restart jepx.service
-            sudo /usr/bin/systemctl is-active --quiet jepx.service
+            echo "Downloading the latest code..."
+            git fetch origin "$BRANCH"
 
-            echo "Deployment completed successfully."
+            echo "Checking the deployment branch..."
+            git checkout "$BRANCH"
+
+            echo "Updating the application..."
+            git pull --ff-only origin "$BRANCH"
+
+            echo "Installing Python dependencies..."
+            .venv/bin/python -m pip install --disable-pip-version-check \
+              -r requirements.txt
+
+            echo "Restarting JEPX service..."
+            sudo -n /usr/bin/systemctl restart jepx.service
+
+            echo "Checking JEPX service..."
+            sudo -n /usr/bin/systemctl is-active --quiet jepx.service
+
+            echo "Deployment completed on the VPS."
           EOF
+
+      - name: Check website
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl \
+              --fail \
+              --silent \
+              --show-error \
+              --location \
+              --max-time 20 \
+              https://yama-energy-lab.com/ > /dev/null
+            then
+              echo "Website check succeeded."
+              exit 0
+            fi
+
+            echo "Website is not ready yet. Attempt: $attempt/5"
+            sleep 5
+          done
+
+          echo "Website check failed."
+          exit 1
+
+      - name: Remove SSH key
+        if: always()
+        run: |
+          rm -f "$HOME/.ssh/id_ed25519"
