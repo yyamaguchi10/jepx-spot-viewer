@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
@@ -105,12 +106,12 @@ def download_year(year: int) -> tuple[Path, bool]:
     return destination, True
 
 
-def update_all() -> None:
+def update_all(years_to_update: list[int]) -> None:
     """表示と年度比較に必要な全CSVを更新する。"""
     failed_years: list[int] = []
     updated_years: list[int] = []
 
-    for year in FISCAL_YEARS:
+    for year in years_to_update:
         try:
             _, updated = download_year(year)
 
@@ -135,8 +136,18 @@ def update_all() -> None:
 
 
 if __name__ == "__main__":
+    mode = sys.argv[1] if len(sys.argv) > 1 else "daily"
+
+    if mode == "daily":
+        years_to_update = [FISCAL_YEARS[-1]]
+    elif mode == "weekly":
+        years_to_update = list(FISCAL_YEARS[:-1])
+    else:
+        print("Usage: python update_data.py [daily|weekly]")
+        raise SystemExit(2)
+
     try:
-        update_all()
+        update_all(years_to_update)
     except DataUpdateError as exc:
         print(f"Update failed: {exc}")
         raise SystemExit(1) from exc
